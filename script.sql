@@ -28,13 +28,6 @@ CREATE TABLE TypeAdherent(
    PRIMARY KEY(idTypeAdherent)
 );
 
-CREATE TABLE Bibliothecaire(
-   idUtilisateur INTEGER,
-   DateEmbauche DATE NOT NULL,
-   PRIMARY KEY(idUtilisateur),
-    FOREIGN KEY(idUtilisateur) REFERENCES Utilisateur(idUtilisateur)
-);
-
 CREATE TABLE TypePret(
    idTypePret SERIAL,
    Nom VARCHAR(100)  NOT NULL,
@@ -75,6 +68,13 @@ CREATE TABLE Utilisateur(
    FOREIGN KEY(idRole) REFERENCES Role(idRole)
 );
 
+CREATE TABLE Bibliothecaire(
+   idUtilisateur INTEGER,
+   DateEmbauche DATE NOT NULL,
+   PRIMARY KEY(idUtilisateur),
+    FOREIGN KEY(idUtilisateur) REFERENCES Utilisateur(idUtilisateur)
+);
+
 CREATE TABLE Adherent(
     idUtilisateur INTEGER,
     DateAdhesion DATE NOT NULL,
@@ -93,7 +93,7 @@ CREATE TABLE Pret(
    idAdherent INTEGER NOT NULL,
    PRIMARY KEY(idPret),
    FOREIGN KEY(idTypePret) REFERENCES TypePret(idTypePret),
-   FOREIGN KEY(idAdherent) REFERENCES Adherent(idAdherent)
+   FOREIGN KEY(idAdherent) REFERENCES Adherent(idUtilisateur)
 );
 
 CREATE TABLE Reprise(
@@ -119,7 +119,7 @@ CREATE TABLE Reservation(
    idAdherent INTEGER NOT NULL,
    idExemplaire INTEGER NOT NULL,
    PRIMARY KEY(idReservation),
-   FOREIGN KEY(idAdherent) REFERENCES Adherent(idAdherent),
+   FOREIGN KEY(idAdherent) REFERENCES Adherent(idUtilisateur),
    FOREIGN KEY(idExemplaire) REFERENCES Exemplaire(idExemplaire)
 );
 
