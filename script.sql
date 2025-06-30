@@ -45,7 +45,6 @@ CREATE TABLE Livre(
    Titre VARCHAR(100)  NOT NULL,
    DateSortie DATE NOT NULL,
    Edition VARCHAR(50) ,
-   Auteur VARCHAR(100)  NOT NULL,
    NombreExemplaire INTEGER NOT NULL,
    idCategorie INTEGER NOT NULL,
    idAuteur INTEGER NOT NULL,
@@ -53,6 +52,28 @@ CREATE TABLE Livre(
    FOREIGN KEY(idCategorie) REFERENCES Categorie(idCategorie),
    FOREIGN KEY(idAuteur) REFERENCES Auteur(idAuteur)
 );
+
+-- Insérer des auteurs
+INSERT INTO Auteur (Nom) VALUES
+('Victor Hugo'),
+('Albert Camus'),
+('Marguerite Duras'),
+('J.K. Rowling');
+
+-- Insérer des catégories
+INSERT INTO Categorie (Nom) VALUES
+('Roman'),
+('Philosophie'),
+('Science-Fiction'),
+('Fantastique');
+
+-- Insérer des livres
+INSERT INTO Livre (Titre, DateSortie, Edition, NombreExemplaire, idCategorie, idAuteur) VALUES
+('Les Misérables', '1862-01-01', 'Penguin Classics', 5, 1, 1),  -- Roman, Victor Hugo
+('L''Etranger', '1942-05-19', 'Gallimard', 3, 2, 2),           -- Philosophie, Albert Camus
+('L''Amant', '1984-01-01', 'Folio', 4, 1, 3),                  -- Roman, Marguerite Duras
+('Harry Potter à l''école des sorciers', '1997-06-26', 'Bloomsbury', 10, 4, 4); -- Fantastique, J.K. Rowling
+
 
 CREATE TABLE Utilisateur(
    idUtilisateur SERIAL,
