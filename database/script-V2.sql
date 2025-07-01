@@ -217,10 +217,10 @@ INSERT INTO Validation (Nom) VALUES
 ('Rejeté'),
 ('En cours de validation');
 
-INSERT INTO TypeAdherent (Nom, NbJourPret, Quota) VALUES
-('Etudiant', 15, 3),
-('Professeur', 30, 5),
-('Anonyme', 7, 1);
+INSERT INTO TypeAdherent (Nom, NbJourPret, Quota,NbJourPenalite) VALUES
+('Etudiant', 15, 3,10),
+('Professeur', 30, 5,5),
+('Anonyme', 7, 1,15);
 
 INSERT INTO TypePret (Nom) VALUES
 ('A domicile'),
