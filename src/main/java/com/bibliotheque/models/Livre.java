@@ -1,21 +1,15 @@
-package com.spring.models;
+package com.bibliotheque.models;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import java.util.List;
+import java.sql.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.sql.Date;
-import java.sql.Date;
-import java.sql.Date;
-import java.sql.Date;
-import java.sql.Date;
-import java.sql.Date;
+import com.bibliotheque.models.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="Livre")
@@ -32,10 +26,15 @@ public class Livre{
     String edition;
     @Column(name="nombreexemplaire")
     Integer nbExemplaire;
-    @Column(name="idcategorie")
-    Integer idcategorie;
-    @Column(name="idauteur")
-    Integer idauteur;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)  // un livre a obligatoirement un auteur
+    @JoinColumn(name = "idcategorie", nullable = false)    
+    private Categorie categorie;
+
+    // Suppression du champ idauteur int, remplacé par la relation ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)  // un livre a obligatoirement un auteur
+    @JoinColumn(name = "idauteur", nullable = false)
+    private Auteur auteur;
 
     public Integer getIdlivre() {
         return idlivre;
@@ -46,7 +45,7 @@ public class Livre{
     }
 
     public String getTitre() {
-        return titre;
+        return titre.replaceAll("‚", "é");
     }
 
     public void setTitre(String titre) {
@@ -77,20 +76,22 @@ public class Livre{
         this.nbExemplaire = nbExemplaire;
     }
 
-    public Integer getIdcategorie() {
-        return idcategorie;
+
+
+    public Auteur getAuteur() {
+        return auteur;
     }
 
-    public void setIdcategorie(Integer idcategorie) {
-        this.idcategorie = idcategorie;
+    public void setAuteur(Auteur auteur) {
+        this.auteur = auteur;
     }
 
-    public Integer getIdauteur() {
-        return idauteur;
+    public Categorie getCategorie() {
+        return categorie;
     }
 
-    public void setIdauteur(Integer idauteur) {
-        this.idauteur = idauteur;
+    public void setCategorie(Categorie categorie) {
+        this.categorie = categorie;
     }
 
 }

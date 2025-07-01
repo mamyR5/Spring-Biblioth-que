@@ -59,7 +59,6 @@ CREATE TABLE Livre(
    Titre VARCHAR(100)  NOT NULL,
    DateSortie DATE NOT NULL,
    Edition VARCHAR(50) ,
-   Auteur VARCHAR(100)  NOT NULL,
    NombreExemplaire INTEGER NOT NULL,
    idCategorie INTEGER NOT NULL,
    idAuteur INTEGER NOT NULL,
@@ -264,3 +263,11 @@ INSERT INTO Adherent (idUtilisateur, DateAdhesion, Actif, idTypeAdherent) VALUES
 (4, '2025-02-05', TRUE, 2),
 (5, '2025-02-10', FALSE, 3);
 
+
+INSERT INTO Livre (Titre, DateSortie, Edition, NombreExemplaire, idCategorie, idAuteur)
+VALUES
+('Les Misérables', '1862-01-01', 'Hachette', 3, 1, 1),
+('La Théorie de la Relativité', '1916-11-25', 'Springer',2, 2, 2),
+('La République', '0380-01-01', 'Belles Lettres', 4, 3, 3),
+('Le Monde comme volonté et comme représentation', '1818-01-01','PUF',2, 3, 4),
+('1984', '1949-06-08', 'Secker & Warburg',5, 4, 5);

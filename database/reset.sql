@@ -1,16 +1,22 @@
--- Suppression des tables dans l'ordre inverse des dépendances
+-- DROP base uniquement si nécessaire
+-- DROP DATABASE IF EXISTS bibliotheque;
+-- CREATE DATABASE bibliotheque;
+-- \c bibliotheque;
+
+-- Suppression des tables dans l'ordre inverse de dépendance
 DROP TABLE IF EXISTS MouvementExemplaire CASCADE;
 DROP TABLE IF EXISTS ProlongementPret CASCADE;
 DROP TABLE IF EXISTS Reprise CASCADE;
 DROP TABLE IF EXISTS Pret CASCADE;
+DROP TABLE IF EXISTS Abonnement CASCADE;
 DROP TABLE IF EXISTS Penalite CASCADE;
 DROP TABLE IF EXISTS Reservation CASCADE;
+DROP TABLE IF EXISTS Exemplaire CASCADE;
 DROP TABLE IF EXISTS Adherent CASCADE;
 DROP TABLE IF EXISTS Bibliothecaire CASCADE;
 DROP TABLE IF EXISTS Utilisateur CASCADE;
-DROP TABLE IF EXISTS Exemplaire CASCADE;
 DROP TABLE IF EXISTS Livre CASCADE;
-DROP TABLE IF EXISTS TypePenalite CASCADE;
+DROP TABLE IF EXISTS Validation CASCADE;
 DROP TABLE IF EXISTS JourFerie CASCADE;
 DROP TABLE IF EXISTS TypeMouvement CASCADE;
 DROP TABLE IF EXISTS TypePret CASCADE;
@@ -19,8 +25,7 @@ DROP TABLE IF EXISTS Role CASCADE;
 DROP TABLE IF EXISTS Categorie CASCADE;
 DROP TABLE IF EXISTS Auteur CASCADE;
 
--- Création des tables
-
+-- Recréation des tables
 CREATE TABLE Auteur(
    idAuteur SERIAL PRIMARY KEY,
    Nom VARCHAR(100) NOT NULL
@@ -36,17 +41,12 @@ CREATE TABLE Role(
    Nom VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE Validation(
-   idValidation SERIAL,
-   Nom CHAR(50)  NOT NULL,
-   PRIMARY KEY(idValidation)
-);
-
 CREATE TABLE TypeAdherent(
    idTypeAdherent SERIAL PRIMARY KEY,
    Nom VARCHAR(50) NOT NULL,
+   Quota INTEGER NOT NULL,
    NbJourPret INTEGER NOT NULL,
-   Quota INTEGER NOT NULL
+   NbJourPenalite INTEGER NOT NULL
 );
 
 CREATE TABLE TypePret(
@@ -65,9 +65,9 @@ CREATE TABLE JourFerie(
    Nom VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE TypePenalite(
-   idTypePenalite SERIAL PRIMARY KEY,
-   Nom VARCHAR(50) NOT NULL
+CREATE TABLE Validation(
+   idValidation SERIAL PRIMARY KEY,
+   Nom CHAR(50) NOT NULL
 );
 
 CREATE TABLE Livre(
@@ -79,14 +79,6 @@ CREATE TABLE Livre(
    NombreExemplaire INTEGER NOT NULL,
    idCategorie INTEGER NOT NULL REFERENCES Categorie(idCategorie),
    idAuteur INTEGER NOT NULL REFERENCES Auteur(idAuteur)
-);
-
-CREATE TABLE Exemplaire(
-   idExemplaire SERIAL PRIMARY KEY,
-   NumeroExemplaire INTEGER NOT NULL,
-   DateAjout DATE NOT NULL,
-   status VARCHAR(50),
-   idLivre INTEGER NOT NULL REFERENCES Livre(idLivre)
 );
 
 CREATE TABLE Utilisateur(
@@ -113,24 +105,34 @@ CREATE TABLE Adherent(
    idTypeAdherent INTEGER NOT NULL REFERENCES TypeAdherent(idTypeAdherent)
 );
 
+CREATE TABLE Exemplaire(
+   idExemplaire SERIAL PRIMARY KEY,
+   NumeroExemplaire INTEGER NOT NULL,
+   DateAjout DATE NOT NULL,
+   status VARCHAR(50),
+   idLivre INTEGER NOT NULL REFERENCES Livre(idLivre)
+);
+
 CREATE TABLE Reservation(
-   idReservation SERIAL,
-   Statut VARCHAR(50)  NOT NULL,
+   idReservation SERIAL PRIMARY KEY,
+   Statut VARCHAR(50) NOT NULL,
    DateReservation DATE NOT NULL,
-   idValidation INTEGER NOT NULL,
-   idAdherent INTEGER NOT NULL,
-   idExemplaire INTEGER NOT NULL,
-   PRIMARY KEY(idReservation),
-   FOREIGN KEY(idValidation) REFERENCES Validation(idValidation),
-   FOREIGN KEY(idAdherent) REFERENCES Adherent(idAdherent),
-   FOREIGN KEY(idExemplaire) REFERENCES Exemplaire(idExemplaire)
+   idValidation INTEGER NOT NULL REFERENCES Validation(idValidation),
+   idAdherent INTEGER NOT NULL REFERENCES Adherent(idUtilisateur),
+   idExemplaire INTEGER NOT NULL REFERENCES Exemplaire(idExemplaire)
 );
 
 CREATE TABLE Penalite(
    idPenalite SERIAL PRIMARY KEY,
    DateDebut DATE NOT NULL,
    DateFin DATE NOT NULL,
-   idTypePenalite INTEGER NOT NULL REFERENCES TypePenalite(idTypePenalite),
+   idAdherent INTEGER NOT NULL REFERENCES Adherent(idUtilisateur)
+);
+
+CREATE TABLE Abonnement(
+   idAbonnement SERIAL PRIMARY KEY,
+   DateDebut DATE NOT NULL,
+   DateFin DATE NOT NULL,
    idAdherent INTEGER NOT NULL REFERENCES Adherent(idUtilisateur)
 );
 
@@ -151,12 +153,11 @@ CREATE TABLE Reprise(
 );
 
 CREATE TABLE ProlongementPret(
-    idProlongementPret SERIAL PRIMARY KEY,
-    DateProlongement DATE NOT NULL,
-    DateFin DATE NOT NULL,
-    idValidation INTEGER NOT NULL,
-    FOREIGN KEY(idValidation) REFERENCES Validation(idValidation),
-    idPret INTEGER NOT NULL UNIQUE REFERENCES Pret(idPret)
+   idProlongementPret SERIAL PRIMARY KEY,
+   DateProlongement DATE NOT NULL,
+   DateFin DATE NOT NULL,
+   idValidation INTEGER NOT NULL REFERENCES Validation(idValidation),
+   idPret INTEGER NOT NULL UNIQUE REFERENCES Pret(idPret)
 );
 
 CREATE TABLE MouvementExemplaire(
@@ -168,8 +169,7 @@ CREATE TABLE MouvementExemplaire(
    idExemplaire INTEGER NOT NULL REFERENCES Exemplaire(idExemplaire)
 );
 
--- Insertion des données
-
+-- Données
 INSERT INTO Auteur (Nom) VALUES
 ('Victor Hugo'),
 ('Albert Einstein'),
@@ -188,16 +188,16 @@ INSERT INTO Role (Nom) VALUES
 ('Admin'),
 ('Utilisateur');
 
+INSERT INTO TypeAdherent (Nom, NbJourPret, Quota, NbJourPenalite) VALUES
+('Etudiant', 15, 3, 10),
+('Professeur', 30, 5, 5),
+('Anonyme', 7, 1, 15);
+
 INSERT INTO Validation (Nom) VALUES
 ('Validé'),
 ('En attente'),
 ('Rejeté'),
 ('En cours de validation');
-
-INSERT INTO TypeAdherent (Nom, NbJourPret, Quota) VALUES
-('Etudiant', 15, 3),
-('Professeur', 30, 5),
-('Anonyme', 7, 1);
 
 INSERT INTO TypePret (Nom) VALUES
 ('A domicile'),
@@ -219,37 +219,6 @@ INSERT INTO JourFerie (DateFerie, Nom) VALUES
 ('2025-08-15', 'Assomption'),
 ('2025-11-01', 'Toussaint'),
 ('2025-12-25', 'Noël');
-
-INSERT INTO TypePenalite (Nom) VALUES
-('Retard'),
-('Livre perdu'),
-('Livre endommagé'),
-('Non-retour');
-
-INSERT INTO Livre (Titre, DateSortie, Edition, Auteur, NombreExemplaire, idCategorie, idAuteur) VALUES
-('Les Misérables', '1862-01-01', 'Hachette', 'Victor Hugo', 3, 1, 1),
-('La Théorie de la Relativité', '1916-11-25', 'Springer', 'Albert Einstein', 2, 2, 2),
-('La République', '0380-01-01', 'Belles Lettres', 'Platon', 4, 3, 3),
-('Le Monde comme volonté et comme représentation', '1818-01-01', 'PUF', 'Arthur Schopenhauer', 2, 3, 4),
-('1984', '1949-06-08', 'Secker & Warburg', 'George Orwell', 5, 4, 5);
-
-INSERT INTO Exemplaire (NumeroExemplaire, DateAjout, status, idLivre) VALUES
-(1, '2024-01-10', 'Disponible', 1),
-(2, '2024-02-15', 'Emprunté', 1),
-(3, '2024-03-20', 'Disponible', 1),
-(1, '2024-04-10', 'Disponible', 2),
-(2, '2024-04-12', 'Perdu', 2),
-(1, '2024-05-01', 'Disponible', 3),
-(2, '2024-05-01', 'Disponible', 3),
-(3, '2024-05-01', 'Disponible', 3),
-(4, '2024-05-01', 'Emprunté', 3),
-(1, '2024-06-01', 'Disponible', 4),
-(2, '2024-06-02', 'Emprunté', 4),
-(1, '2024-06-10', 'Disponible', 5),
-(2, '2024-06-11', 'Réservé', 5),
-(3, '2024-06-12', 'Disponible', 5),
-(4, '2024-06-13', 'Disponible', 5),
-(5, '2024-06-14', 'Emprunté', 5);
 
 INSERT INTO Utilisateur (Nom, Email, MotDePasse, Telephone, Adresse, DateInscription, DateNaissance, idRole) VALUES
 ('Admin Principal', 'admin@biblio.com', 'admin', '0321234567', 'Antananarivo', '2025-01-01', '1990-05-10', 1),

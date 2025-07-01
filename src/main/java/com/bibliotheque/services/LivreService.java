@@ -1,12 +1,12 @@
-package com.spring.services;
+package com.bibliotheque.services;
 
 import java.util.List;
 
-import com.spring.models.Livre;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.spring.repositories.LivreRepository;
+import com.bibliotheque.models.Livre;
+import com.bibliotheque.repositories.LivreRepository;
 
 @Service
 public class LivreService {

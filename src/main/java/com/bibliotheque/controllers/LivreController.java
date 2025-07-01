@@ -1,23 +1,22 @@
-package com.spring.controllers;
+package com.bibliotheque.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.spring.services.LivreService;
+import com.bibliotheque.services.LivreService;
 
 @Controller
-@RequestMapping("/livres")
 public class LivreController {
 
     @Autowired
     private LivreService livreService;
 
-    @GetMapping("/")
+    // Cette méthode répond à la racine "/livres" (sans slash à la fin)
+    @GetMapping("/livre")
     public String listLivre(Model model) {
         model.addAttribute("livres", livreService.findAll());
-        return "index";  // rend src/main/webapp/WEB-INF/views/index.jsp
+        return "page"; // retour de la vue src/main/webapp/WEB-INF/views/index.jsp
     }
 }
