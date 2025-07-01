@@ -39,6 +39,19 @@ INSERT INTO Role (Nom) VALUES
 ('Admin'),
 ('Utilisateur');
 
+CREATE TABLE Validation(
+   idValidation SERIAL,
+   Nom CHAR(50)  NOT NULL,
+   PRIMARY KEY(idValidation)
+);
+
+INSERT INTO Validation (Nom) VALUES
+('Validé'),
+('En attente'),
+('Rejeté'),
+('En cours de validation');
+
+
 
 CREATE TABLE TypeAdherent(
    idTypeAdherent SERIAL,
@@ -229,12 +242,15 @@ CREATE TABLE Reservation(
    idReservation SERIAL,
    Statut VARCHAR(50)  NOT NULL,
    DateReservation DATE NOT NULL,
+   idValidation INTEGER NOT NULL,
    idAdherent INTEGER NOT NULL,
    idExemplaire INTEGER NOT NULL,
    PRIMARY KEY(idReservation),
-   FOREIGN KEY(idAdherent) REFERENCES Adherent(idUtilisateur),
+   FOREIGN KEY(idValidation) REFERENCES Validation(idValidation),
+   FOREIGN KEY(idAdherent) REFERENCES Adherent(idAdherent),
    FOREIGN KEY(idExemplaire) REFERENCES Exemplaire(idExemplaire)
 );
+
 
 CREATE TABLE Penalite(
    idPenalite SERIAL,
@@ -270,15 +286,20 @@ CREATE TABLE Reprise(
    FOREIGN KEY(idPret) REFERENCES Pret(idPret)
 );
 
+
+
 CREATE TABLE ProlongementPret(
    idProlongementPret SERIAL,
    DateProlongement DATE NOT NULL,
    DateFin DATE NOT NULL,
+   idValidation INTEGER NOT NULL,
    idPret INTEGER NOT NULL,
    PRIMARY KEY(idProlongementPret),
    UNIQUE(idPret),
+   FOREIGN KEY(idValidation) REFERENCES Validation(idValidation),
    FOREIGN KEY(idPret) REFERENCES Pret(idPret)
 );
+
 
 CREATE TABLE MouvementExemplaire(
    idMouvementExemplaire SERIAL,

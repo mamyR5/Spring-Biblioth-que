@@ -2,11 +2,11 @@ package com.spring.services;
 
 import java.util.List;
 
-import com.models.Livre;
+import com.spring.models.Livre;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.repositories.LivreRepository;
+import com.spring.repositories.LivreRepository;
 
 @Service
 public class LivreService {
@@ -17,7 +17,7 @@ public class LivreService {
         this.repository = repo;
     }
 
-    public List<Livre> getAll(){
+    public List<Livre> findAll(){
         return this.repository.findAll();
     }
 

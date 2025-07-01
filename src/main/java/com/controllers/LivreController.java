@@ -1,27 +1,23 @@
 package com.spring.controllers;
 
-
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.Controller;
 
-import com.spring.model.Livre;
 import com.spring.services.LivreService;
 
 @Controller
+@RequestMapping("/livres")
 public class LivreController {
+
+    @Autowired
+    private LivreService livreService;
+
     @GetMapping("/")
-       public String listLivre(Model model) {    
-        return "index"; 
+    public String listLivre(Model model) {
+        model.addAttribute("livres", livreService.findAll());
+        return "index";  // rend src/main/webapp/WEB-INF/views/index.jsp
     }
 }

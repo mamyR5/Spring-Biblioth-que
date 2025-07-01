@@ -1,4 +1,4 @@
-package com.models;
+package com.spring.models;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.JoinColumn;
