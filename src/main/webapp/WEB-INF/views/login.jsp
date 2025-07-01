@@ -6,6 +6,15 @@
     <title>Login</title>
 </head>
 <body>
-    
+    <div>
+        <div>
+            <label>Email</label>
+            <input type="email" name="email"/>
+        </div>
+        <div>
+            <label>Mot de passe</label>
+            <input type="password" name="mdp"/>
+        </div>
+    </div>
 </body>
 </html>
