@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import com.bibliotheque.models.*;
+import io.micrometer.common.lang.Nullable;
 import jakarta.persistence.*;
 
 @Entity
@@ -17,15 +18,15 @@ public class Livre{
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="idlivre")
-    Integer idlivre;
+    private Integer idlivre;
     @Column(name="titre")
-    String titre;
+    private String titre;
     @Column(name="datesortie")
-    Date datesortie;
+    private Date datesortie;
     @Column(name="edition")
-    String edition;
+    private String edition;
     @Column(name="nombreexemplaire")
-    Integer nbExemplaire;
+    private Integer nbExemplaire;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)  // un livre a obligatoirement un auteur
     @JoinColumn(name = "idcategorie", nullable = false)    
@@ -35,6 +36,10 @@ public class Livre{
     @ManyToOne(fetch = FetchType.LAZY, optional = false)  // un livre a obligatoirement un auteur
     @JoinColumn(name = "idauteur", nullable = false)
     private Auteur auteur;
+
+    @OneToOne(fetch = FetchType.LAZY,optional=false)
+    @JoinColumn(name="idrestriction",nullable=false)
+    private Restriction restriction;
 
     public Integer getIdlivre() {
         return idlivre;
@@ -92,6 +97,14 @@ public class Livre{
 
     public void setCategorie(Categorie categorie) {
         this.categorie = categorie;
+    }
+
+    public Restriction getRestriction() {
+        return restriction;
+    }
+
+    public void setRestriction(Restriction restriction) {
+        this.restriction = restriction;
     }
 
 }

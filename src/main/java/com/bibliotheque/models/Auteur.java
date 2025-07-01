@@ -14,9 +14,9 @@ public class Auteur {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="idauteur")
-    Integer idlivre;
+    private Integer idlivre;
     @Column(name="nom")
-    String nom;
+    private String nom;
 
     public Integer getIdlivre() {
         return idlivre;

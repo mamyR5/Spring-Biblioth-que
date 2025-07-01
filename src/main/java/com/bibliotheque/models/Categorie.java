@@ -5,13 +5,13 @@ import jakarta.persistence.*;
 @Entity
 @Table(name="Categorie")
 public class Categorie {
-    
+
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="idcategorie")
-    Integer idlivre;
+    private Integer idlivre;
     @Column(name="nom")
-    String nom;
+    private String nom;
 
     public Integer getIdlivre() {
         return idlivre;

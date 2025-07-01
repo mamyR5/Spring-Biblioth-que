@@ -54,18 +54,30 @@ CREATE TABLE Validation(
    PRIMARY KEY(idValidation)
 );
 
+
+
+CREATE TABLE Restriction(
+   idRestriction SERIAL,
+   Age INTEGER NOT NULL,
+   PRIMARY KEY(idRestriction)
+);
+
+
 CREATE TABLE Livre(
    idLivre SERIAL,
    Titre VARCHAR(100)  NOT NULL,
    DateSortie DATE NOT NULL,
    Edition VARCHAR(50) ,
    NombreExemplaire INTEGER NOT NULL,
+   idRestriction INTEGER NOT NULL,
    idCategorie INTEGER NOT NULL,
    idAuteur INTEGER NOT NULL,
    PRIMARY KEY(idLivre),
+   FOREIGN KEY(idRestriction) REFERENCES Restriction(idRestriction),
    FOREIGN KEY(idCategorie) REFERENCES Categorie(idCategorie),
    FOREIGN KEY(idAuteur) REFERENCES Auteur(idAuteur)
 );
+
 
 CREATE TABLE Utilisateur(
    idUtilisateur SERIAL,
@@ -129,6 +141,8 @@ CREATE TABLE Penalite(
    PRIMARY KEY(idPenalite),
    FOREIGN KEY(idAdherent) REFERENCES Adherent(idUtilisateur)
 );
+
+
 
 CREATE TABLE Abonnement(
    idAbonnement SERIAL,
@@ -263,11 +277,47 @@ INSERT INTO Adherent (idUtilisateur, DateAdhesion, Actif, idTypeAdherent) VALUES
 (4, '2025-02-05', TRUE, 2),
 (5, '2025-02-10', FALSE, 3);
 
-
-INSERT INTO Livre (Titre, DateSortie, Edition, NombreExemplaire, idCategorie, idAuteur)
+INSERT INTO Livre (Titre, DateSortie, Edition, NombreExemplaire, idRestriction, idCategorie, idAuteur)
 VALUES
-('Les Misérables', '1862-01-01', 'Hachette', 3, 1, 1),
-('La Théorie de la Relativité', '1916-11-25', 'Springer',2, 2, 2),
-('La République', '0380-01-01', 'Belles Lettres', 4, 3, 3),
-('Le Monde comme volonté et comme représentation', '1818-01-01','PUF',2, 3, 4),
-('1984', '1949-06-08', 'Secker & Warburg',5, 4, 5);
+('Les Misérables', '1862-01-01', 'Hachette', 3, 3, 1, 1),
+('La Théorie de la Relativité', '1916-11-25', 'Springer',2, 5, 2, 2),
+('La République', '0380-01-01', 'Belles Lettres', 4, 2, 3, 3),
+('Le Monde comme volonté et comme représentation', '1818-01-01', 'PUF', 2, 4, 3, 4),
+('1984', '1949-06-08', 'Secker & Warburg', 5, 3, 4, 5);
+
+
+INSERT INTO Exemplaire (NumeroExemplaire, DateAjout, status, idLivre) VALUES
+-- Les Misérables (idLivre = 1)
+(1, '2024-01-10', 'Disponible', 1),
+(2, '2024-02-15', 'Emprunté', 1),
+(3, '2024-03-20', 'Disponible', 1),
+
+-- La Théorie de la Relativité (idLivre = 2)
+(1, '2024-04-10', 'Disponible', 2),
+(2, '2024-04-12', 'Perdu', 2),
+
+-- La République (idLivre = 3)
+(1, '2024-05-01', 'Disponible', 3),
+(2, '2024-05-01', 'Disponible', 3),
+(3, '2024-05-01', 'Disponible', 3),
+(4, '2024-05-01', 'Emprunté', 3),
+
+-- Le Monde comme volonté... (idLivre = 4)
+(1, '2024-06-01', 'Disponible', 4),
+(2, '2024-06-02', 'Emprunté', 4),
+
+-- 1984 (idLivre = 5)
+(1, '2024-06-10', 'Disponible', 5),
+(2, '2024-06-11', 'Réservé', 5),
+(3, '2024-06-12', 'Disponible', 5),
+(4, '2024-06-13', 'Disponible', 5),
+(5, '2024-06-14', 'Emprunté', 5);
+
+INSERT INTO Restriction (Age) VALUES 
+(10),  -- restriction enfant
+(16),  -- ado
+(18),  -- adulte
+(0),   -- aucune restriction
+(12);  -- pré-ado
+
+
