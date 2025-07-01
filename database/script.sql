@@ -1,3 +1,6 @@
+CREATE DATABASE bibliotheque;
+\c bibliotheque;
+
 CREATE TABLE Auteur(
    idAuteur SERIAL,
    Nom VARCHAR(100)  NOT NULL,
@@ -32,6 +35,11 @@ CREATE TABLE Role(
    PRIMARY KEY(idRole)
 );
 
+INSERT INTO Role (Nom) VALUES
+('Admin'),
+('Utilisateur');
+
+
 CREATE TABLE TypeAdherent(
    idTypeAdherent SERIAL,
    Nom VARCHAR(50)  NOT NULL,
@@ -62,6 +70,10 @@ CREATE TABLE TypeMouvement(
    PRIMARY KEY(idTypeMouvement)
 );
 
+INSERT INTO TypeMouvement VALUES 
+(default,"Prêt"),
+(default,"Reprise");
+
 CREATE TABLE JourFerie(
    idJourFerie SERIAL,
    DateFerie DATE NOT NULL,
@@ -69,11 +81,31 @@ CREATE TABLE JourFerie(
    PRIMARY KEY(idJourFerie)
 );
 
+INSERT INTO JourFerie (DateFerie, Nom) VALUES
+('2025-01-01', 'Nouvel an'),
+('2025-03-29', 'Commémoration des martyrs de l''insurrection de 1947'),
+('2025-04-18', 'Vendredi Saint'),
+('2025-04-21', 'Lundi de Pâques'),
+('2025-05-01', 'Fête du travail'),
+('2025-05-29', 'Ascension'),
+('2025-06-09', 'Lundi de Pentecôte'),
+('2025-06-26', 'Fête de l''indépendance'),
+('2025-08-15', 'Assomption'),
+('2025-11-01', 'Toussaint'),
+('2025-12-25', 'Noël');
+
+
 CREATE TABLE TypePenalite(
    idTypePenalite SERIAL,
    Nom VARCHAR(50)  NOT NULL,
    PRIMARY KEY(idTypePenalite)
 );
+
+INSERT INTO TypePenalite (Nom) VALUES
+('Retard'),
+('Livre perdu'),
+('Livre endommagé'),
+('Non-retour');
 
 CREATE TABLE Livre(
    idLivre SERIAL,
@@ -150,12 +182,30 @@ CREATE TABLE Utilisateur(
    FOREIGN KEY(idRole) REFERENCES Role(idRole)
 );
 
+INSERT INTO Utilisateur (Nom, Email, MotDePasse, Telephone, Adresse, DateInscription, DateNaissance, idRole) VALUES
+-- Admin
+('Admin Principal', 'admin@biblio.com', 'admin', '0321234567', 'Antananarivo', '2025-01-01', '1990-05-10', 1),
+
+-- Bibliothécaire
+('Claire Bibliothécaire', 'claire@biblio.com', 'clairepwd', '0331122334', 'Fianarantsoa', '2025-03-10', '1988-04-15', 2),
+
+-- Adhérents
+('Jean Etudiant', 'jean@biblio.com', 'jeanpwd', '0345566778', 'Toamasina', '2025-02-01', '2001-07-20', 2),
+('Lova Professeur', 'lova@biblio.com', 'lovapwd', '0329876543', 'Mahajanga', '2025-02-05', '1980-03-08', 2),
+('Anjara Lecteur', 'anjara@biblio.com', 'anjara123', '0334455667', 'Toliara', '2025-02-10', '1995-11-11', 2);
+
+
 CREATE TABLE Bibliothecaire(
    idUtilisateur INTEGER,
    DateEmbauche DATE NOT NULL,
    PRIMARY KEY(idUtilisateur),
     FOREIGN KEY(idUtilisateur) REFERENCES Utilisateur(idUtilisateur)
 );
+
+INSERT INTO Bibliothecaire (idUtilisateur, DateEmbauche) VALUES
+(2, '2025-03-11');
+
+
 
 CREATE TABLE Adherent(
     idUtilisateur INTEGER,
@@ -167,6 +217,12 @@ CREATE TABLE Adherent(
     FOREIGN KEY(idTypeAdherent) REFERENCES TypeAdherent(idTypeAdherent)
 );
 
+INSERT INTO Adherent (idUtilisateur, DateAdhesion, Actif, idTypeAdherent) VALUES
+(3, '2025-02-01', TRUE, 1),
+(4, '2025-02-05', TRUE, 2),
+(5, '2025-02-10', FALSE, 3);
+
+
 
 
 CREATE TABLE Reservation(
@@ -176,7 +232,7 @@ CREATE TABLE Reservation(
    idAdherent INTEGER NOT NULL,
    idExemplaire INTEGER NOT NULL,
    PRIMARY KEY(idReservation),
-   FOREIGN KEY(idAdherent) REFERENCES Adherent(idAdherent),
+   FOREIGN KEY(idAdherent) REFERENCES Adherent(idUtilisateur),
    FOREIGN KEY(idExemplaire) REFERENCES Exemplaire(idExemplaire)
 );
 
@@ -188,7 +244,7 @@ CREATE TABLE Penalite(
    idAdherent INTEGER NOT NULL,
    PRIMARY KEY(idPenalite),
    FOREIGN KEY(idTypePenalite) REFERENCES TypePenalite(idTypePenalite),
-   FOREIGN KEY(idAdherent) REFERENCES Adherent(idAdherent)
+   FOREIGN KEY(idAdherent) REFERENCES Adherent(idUtilisateur)
 );
 
 CREATE TABLE Pret(
@@ -201,7 +257,7 @@ CREATE TABLE Pret(
    PRIMARY KEY(idPret),
    FOREIGN KEY(idExemplaire) REFERENCES Exemplaire(idExemplaire),
    FOREIGN KEY(idTypePret) REFERENCES TypePret(idTypePret),
-   FOREIGN KEY(idAdherent) REFERENCES Adherent(idAdherent)
+   FOREIGN KEY(idAdherent) REFERENCES Adherent(idUtilisateur)
 );
 
 CREATE TABLE Reprise(
