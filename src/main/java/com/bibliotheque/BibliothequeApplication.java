@@ -7,12 +7,10 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
 @SpringBootApplication
 public class BibliothequeApplication extends SpringBootServletInitializer {
-
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
 		return builder.sources(BibliothequeApplication.class);
 	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(BibliothequeApplication.class, args);
 	}
