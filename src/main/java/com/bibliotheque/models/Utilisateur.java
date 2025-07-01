@@ -7,5 +7,12 @@ import jakarta.persistence.*;
 @Entity
 public class Utilisateur {
     @Id
-    @Generated
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name="idutilisateur")
+    private Integer idUtilisateur;
+
+    
+
+
+
 }
