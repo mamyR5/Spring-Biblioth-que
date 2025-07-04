@@ -11,19 +11,20 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name="Auteur")
 public class Auteur {
+
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="idauteur")
-    private Integer idlivre;
-    @Column(name="nom")
+    @Column(name="idAuteur")
+    private Integer idAuteur;
+    @Column(name="Nom")
     private String nom;
 
-    public Integer getIdlivre() {
-        return idlivre;
+    public Integer getIdAuteur() {
+        return idAuteur;
     }
 
-    public void setIdlivre(Integer idlivre) {
-        this.idlivre = idlivre;
+    public void setIdAuteur(Integer IdAuteur) {
+        this.idAuteur = IdAuteur;
     }
 
     public String getNom() {

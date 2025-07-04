@@ -16,9 +16,12 @@ public class UtilisateurController {
     private RoleService roleService;
     @Autowired
     private UtilisateurService utilisateurService;
+    @Autowired
+    private TypeUtilisateurService typeUtilisateurService;
 
     @GetMapping("/user/inscription")
     public String inscription(Model model){
+        model.addAttribute("typesUtilisateurs",typeUtilisateurService.findAll());
         return "inscription";
     }
 

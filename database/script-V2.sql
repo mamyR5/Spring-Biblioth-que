@@ -254,10 +254,6 @@ INSERT INTO Validation (Nom) VALUES
 ('Rejeté'),
 ('En cours de validation');
 
-INSERT INTO TypeAdherent (Nom, NbJourPret, Quota,NbJourPenalite) VALUES
-('Etudiant', 15, 3,10),
-('Professeur', 30, 5,5),
-('Anonyme', 7, 1,15);
 
 INSERT INTO TypePret (Nom) VALUES
 ('A domicile'),
@@ -299,8 +295,6 @@ INSERT INTO Utilisateur (Nom, Email, MotDePasse, Telephone, Adresse, DateInscrip
 ('Lova Professeur', 'lova@biblio.com', 'lovapwd', '0329876543', 'Mahajanga', '2025-02-05', '1980-03-08',1, 2),
 ('Anjara Lecteur', 'anjara@biblio.com', 'anjara123', '0334455667', 'Toliara', '2025-02-10', '1995-11-11',1, 2);
 
-ALTER TABLE Utilisateur
-ALTER COLUMN idRole SET DEFAULT 2;
 
 INSERT INTO Bibliothecaire (idUtilisateur, DateEmbauche) VALUES
 (2, '2025-03-11');

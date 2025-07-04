@@ -17,28 +17,32 @@ import jakarta.persistence.*;
 public class Livre{
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="idlivre")
+    @Column(name="idLivre")
     private Integer idlivre;
-    @Column(name="titre")
+
+    @Column(name="Titre")
     private String titre;
-    @Column(name="datesortie")
+
+    @Column(name="DateSortie")
     private Date datesortie;
-    @Column(name="edition")
+
+    @Column(name="Edition")
     private String edition;
-    @Column(name="nombreexemplaire")
+    
+    @Column(name="NombreExemplaire")
     private Integer nbExemplaire;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)  // un livre a obligatoirement un auteur
-    @JoinColumn(name = "idcategorie", nullable = false)    
+    @JoinColumn(name = "idCategorie", nullable = false)    
     private Categorie categorie;
 
     // Suppression du champ idauteur int, remplacé par la relation ManyToOne
     @ManyToOne(fetch = FetchType.LAZY, optional = false)  // un livre a obligatoirement un auteur
-    @JoinColumn(name = "idauteur", nullable = false)
+    @JoinColumn(name = "idAuteur", nullable = false)
     private Auteur auteur;
 
     @OneToOne(fetch = FetchType.LAZY,optional=false)
-    @JoinColumn(name="idrestriction",nullable=false)
+    @JoinColumn(name="idRestriction",nullable=false)
     private Restriction restriction;
 
     public Integer getIdlivre() {

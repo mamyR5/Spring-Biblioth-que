@@ -13,8 +13,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED) // ou SINGLE_TABLE si tu préfères
 @Table(name="Utilisateur")
 public class Utilisateur {
     @Id
@@ -46,6 +46,18 @@ public class Utilisateur {
     @ManyToOne
     @JoinColumn(name="idrole")
     private Role role;
+
+    @ManyToOne
+    @JoinColumn(name="idtypeutilisateur")
+    private TypeUtilisateur idTypeUtilisateur;
+
+    public TypeUtilisateur getIdTypeUtilisateur() {
+        return idTypeUtilisateur;
+    }
+
+    public void setIdTypeUtilisateur(TypeUtilisateur idTypeUtilisateur) {
+        this.idTypeUtilisateur = idTypeUtilisateur;
+    }
 
     public Integer getIdUtilisateur() {
         return idUtilisateur;

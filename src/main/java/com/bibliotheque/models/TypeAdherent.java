@@ -13,10 +13,10 @@ public class TypeAdherent{
     
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="idtypeadherent")
+    @Column(name="idTypeAdherent")
     private Integer idTypeAdherent;
 
-    @Column(name="nom")
+    @Column(name="Nom")
     private String nom;
 
     public Integer getIdTypeAdherent() {

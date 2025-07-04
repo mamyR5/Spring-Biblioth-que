@@ -1,4 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.bibliotheque.models.TypeUtilisateur" %>
+<%
+  List<TypeUtilisateur> typesUtilisateurs = (List<TypeUtlisateur>) request.getAttribute("typesUtilisateurs");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -66,8 +71,9 @@
                         <img src="<%= request.getContextPath()%>/icons/raphael--arrowdown.svg" class="arrow-icon">
                     </div>
                     <ul class="select-options">
-                        <li data-value="adherent">Adhérent</li>
-                        <li data-value="bibliothecaire">Bibliothécaire</li>
+                        <% for(TypeUtilisateur type : typesUtilisateurs) {%>
+                          <li data-value="<%= type.getIdTypeUtilisateur() %>"><%= type.getNom() %></li>
+                        <% } %>
                     </ul>
                 </div>
 
@@ -126,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const hiddenInput = document.getElementById("select-value");
     console.log("Valeur hiddenInput:", hiddenInput?.value);
 
-  if (hiddenInput && hiddenInput.value.trim() === "adherent") {
+  if (hiddenInput && hiddenInput.value.trim() === "1") {
     fetch("/api/type-adherents")
       .then(response => {
         if (!response.ok) throw new Error("Erreur réseau");

@@ -9,17 +9,17 @@ public class Exemplaire {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="idexemplaire")
+    @Column(name="idExemplaire")
     private Integer idexemplaire;
-    @Column(name="numeroexemplaire")
+    @Column(name="NumeroExemplaire  ")
     private Integer numeroExemplaire;
-    @Column(name="dateajout")
+    @Column(name="DateAjout ")
     private Date dateAjout;
-    @Column(name="status")
+    @Column(name="status ")
     private String status;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idlivre",nullable=false)
+    @JoinColumn(name="idLivre",nullable=false)
     private Livre livre;
 
     public Integer getIdexemplaire() {
