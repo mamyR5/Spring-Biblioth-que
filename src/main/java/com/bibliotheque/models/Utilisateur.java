@@ -1,44 +1,46 @@
 package com.bibliotheque.models;
 
+import java.sql.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
-import com.bibliotheque.models.*;
-
-import java.sql.Date;
-
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED) // ou SINGLE_TABLE si tu préfères
+@Table(name="Utilisateur")
 public class Utilisateur {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="idutilisateur")
     private Integer idUtilisateur;
 
-    @Column(name="Nom")
+    @Column(name="nom")
     private String nom;
 
-    @Column(name="Email")
+    @Column(name="email")
     private String email;
 
-    @Column(name="MotDePasse")
+    @Column(name="motdepasse")
     private String motDePasse;
 
-    @Column(name="Telephone")
+    @Column(name="telephone")
     private String telephone;
 
-    @Column(name="Adresse")
+    @Column(name="adresse")
     private String adresse;
 
-    @Column(name="DateInscription")
+    @Column(name="dateinscription")
     private Date dateInscription;
 
-    @Column(name="DateNaissance")
+    @Column(name="datenaissance")
     private Date dateNaissance;
 
     @ManyToOne
@@ -116,10 +118,5 @@ public class Utilisateur {
     public void setRole(Role Role) {
         this.role = Role;
     }
-
-
-    
-
-
 
 }

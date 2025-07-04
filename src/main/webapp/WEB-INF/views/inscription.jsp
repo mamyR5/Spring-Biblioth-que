@@ -1,9 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.bibliotheque.models.Role" %>
-<%
-    List<Role> roles = (List<Role>)request.getAttribute("roles");
-%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,14 +66,19 @@
                         <img src="<%= request.getContextPath()%>/icons/raphael--arrowdown.svg" class="arrow-icon">
                     </div>
                     <ul class="select-options">
-                        <% for(Role role : roles){%>
-                            <li data-value="<%= role.getIdRole() %>"><%= role.getNom() %></li>
-                        <% } %>                      
+                        <li data-value="adherent">Adhérent</li>
+                        <li data-value="bibliothecaire">Bibliothécaire</li>
                     </ul>
                 </div>
 
                 <!-- Pour afficher la valeur sélectionnée -->
-                <input type="hidden" id="select-value" name="idRole">
+                <input type="hidden" id="select-value" name="user">
+
+                <!-- Conteneur où on affichera le select -->
+                <div id="type-adherent-container">
+
+                </div>
+
 
 
                 <div class="form-group">
@@ -121,6 +121,75 @@
         </div>
     </div>
 <script>
+
+document.addEventListener("DOMContentLoaded", () => {
+  const hiddenInput = document.getElementById("select-value");
+    console.log("Valeur hiddenInput:", hiddenInput?.value);
+
+  if (hiddenInput && hiddenInput.value.trim() === "adherent") {
+    fetch("/api/type-adherents")
+      .then(response => {
+        if (!response.ok) throw new Error("Erreur réseau");
+        return response.json();
+      })
+      .then(data => {
+        afficherSelect(data);
+      })
+      .catch(error => {
+        console.error("Erreur lors de la récupération :", error);
+      });
+  }
+});
+
+function afficherSelect(types) {
+  const container = document.getElementById("type-adherent-container");
+
+    const hiddenInput = document.createElement("input");
+    hiddenInput.type = "hidden";
+    hiddenInput.name = "typeAdherent"; // le nom du champ à envoyer
+    container.appendChild(hiddenInput);
+
+  // Crée le conteneur du custom select
+  const customSelect = document.createElement("div");
+  customSelect.classList.add("custom-select");
+
+  // Élément affiché (select-selected)
+  const selected = document.createElement("div");
+  selected.classList.add("select-selected");
+  selected.textContent = "-- Sélectionnez un type --";
+  customSelect.appendChild(selected);
+
+  // Conteneur options
+  const optionsContainer = document.createElement("ul");
+  optionsContainer.classList.add("select-options");
+  optionsContainer.style.display = "none"; // caché par défaut
+
+  // Ajout options en <li>
+  types.forEach(type => {
+    const li = document.createElement("li");
+    li.setAttribute("data-value", type.id);
+    li.textContent = type.nom;
+    optionsContainer.appendChild(li);
+
+    li.addEventListener("click", () => {
+    selected.textContent = li.textContent;
+    optionsContainer.style.display = "none";
+      // Mettre à jour la valeur dans un input caché si besoin
+    hiddenInput.value = li.getAttribute("data-value");  // <-- met à jour la valeur ici
+    });
+  });
+
+  customSelect.appendChild(optionsContainer);
+  container.appendChild(customSelect);
+
+  // Toggle affichage options au clic sur selected
+  selected.addEventListener("click", () => {
+    optionsContainer.style.display = optionsContainer.style.display === "block" ? "none" : "block";
+  });
+}
+
+
+
   function verifierMotDePasse() {
     const motDePasse = document.getElementById("password");
     const confirmeMotDePasse = document.getElementById("confirm-password");
@@ -132,26 +201,25 @@
       message.innerText = ""; // efface le message si OK
     }
   }
-</script>
 
-<script>
-  const select = document.querySelector(".custom-select");
+  document.querySelectorAll(".custom-select").forEach(select => {
   const selected = select.querySelector(".select-selected");
   const options = select.querySelector(".select-options");
   const arrow = select.querySelector(".arrow-icon");
   const text = select.querySelector(".selected-text");
-  const hiddenInput = document.getElementById("select-value");
+  const hiddenInput = select.querySelector("#select-value"); // mieux que document.getElementById
 
   selected.addEventListener("click", () => {
-    options.style.display = options.style.display === "block" ? "none" : "block";
-    arrow.style.transform = options.style.display === "block" ? "rotate(180deg)" : "rotate(0deg)";
+    const isOpen = options.style.display === "block";
+    options.style.display = isOpen ? "none" : "block";
+    arrow.style.transform = isOpen ? "rotate(0deg)" : "rotate(180deg)";
   });
 
   options.querySelectorAll("li").forEach(option => {
     option.addEventListener("click", () => {
       const value = option.getAttribute("data-value");
       text.textContent = option.textContent;
-      hiddenInput.value = value;
+      if(hiddenInput) hiddenInput.value = value;
       options.style.display = "none";
       arrow.style.transform = "rotate(0deg)";
     });
@@ -164,6 +232,9 @@
       arrow.style.transform = "rotate(0deg)";
     }
   });
+});
+
+
 </script>
 </body>
 </html>

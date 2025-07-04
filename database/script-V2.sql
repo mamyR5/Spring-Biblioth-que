@@ -78,6 +78,13 @@ CREATE TABLE Livre(
    FOREIGN KEY(idAuteur) REFERENCES Auteur(idAuteur)
 );
 
+CREATE TABLE TypeUtilisateur(
+   idTypeUtilisateur SERIAL,
+   Nom CHAR(50)  NOT NULL,
+   PRIMARY KEY(idTypeUtilisateur)
+);
+
+
 
 CREATE TABLE Utilisateur(
    idUtilisateur SERIAL,
@@ -88,27 +95,44 @@ CREATE TABLE Utilisateur(
    Adresse VARCHAR(50)  NOT NULL,
    DateInscription DATE NOT NULL,
    DateNaissance DATE NOT NULL,
+   idTypeUtilisateur INTEGER NOT NULL,
    idRole INTEGER NOT NULL,
    PRIMARY KEY(idUtilisateur),
-   FOREIGN KEY(idRole) REFERENCES Role(idRole)
+   FOREIGN KEY(idRole) REFERENCES Role(idRole),
+   FOREIGN KEY(idTypeUtilisateur) REFERENCES TypeUtilisateur(idTypeUtilisateur)
 );
+
+ALTER TABLE Utilisateur
+ALTER COLUMN DateInscription SET DEFAULT NOW();
+
 
 CREATE TABLE Bibliothecaire(
-    idUtilisateur INTEGER,
-    DateEmbauche DATE NOT NULL,
-    PRIMARY KEY(idUtilisateur),
-    FOREIGN KEY(idUtilisateur) REFERENCES Utilisateur(idUtilisateur)
+   idBibliotheque INTEGER,
+   DateEmbauche DATE NOT NULL,
+   idUtilisateur INTEGER NOT NULL,
+   PRIMARY KEY(idBibliotheque),
+   FOREIGN KEY(idUtilisateur) REFERENCES Utilisateur(idUtilisateur)
 );
 
+ALTER TABLE Bibliothecaire
+ALTER COLUMN DateEmbauche SET DEFAULT NOW();
+
+
 CREATE TABLE Adherent(
-    idUtilisateur INTEGER,
-    DateAdhesion DATE NOT NULL,
-    Actif BOOLEAN NOT NULL,
-    idTypeAdherent INTEGER NOT NULL,
-    PRIMARY KEY(idUtilisateur),
-    FOREIGN KEY(idUtilisateur) REFERENCES Utilisateur(idUtilisateur) ,
-    FOREIGN KEY(idTypeAdherent) REFERENCES TypeAdherent(idTypeAdherent)
+      idAdherent SERIAL,
+      DateAdhesion DATE NOT NULL,
+      Actif BOOLEAN NOT NULL,
+      idUtilisateur INTEGER NOT NULL,
+      idTypeAdherent INTEGER NOT NULL,
+      PRIMARY KEY(idAdherent),
+      FOREIGN KEY(idUtilisateur) REFERENCES Utilisateur(idUtilisateur),
+      FOREIGN KEY(idTypeAdherent) REFERENCES TypeAdherent(idTypeAdherent)
 );
+
+
+ALTER TABLE Adherent
+ALTER COLUMN DateAdhesion SET DEFAULT NOW();
+
 
 CREATE TABLE Exemplaire(
    idExemplaire SERIAL,
@@ -129,7 +153,7 @@ CREATE TABLE Reservation(
    idExemplaire INTEGER NOT NULL,
    PRIMARY KEY(idReservation),
    FOREIGN KEY(idValidation) REFERENCES Validation(idValidation),
-   FOREIGN KEY(idAdherent) REFERENCES Adherent(idUtilisateur),
+   FOREIGN KEY(idAdherent) REFERENCES Adherent(idAdherent),
    FOREIGN KEY(idExemplaire) REFERENCES Exemplaire(idExemplaire)
 );
 
@@ -139,7 +163,7 @@ CREATE TABLE Penalite(
    DateFin DATE NOT NULL,
    idAdherent INTEGER NOT NULL,
    PRIMARY KEY(idPenalite),
-   FOREIGN KEY(idAdherent) REFERENCES Adherent(idUtilisateur)
+   FOREIGN KEY(idAdherent) REFERENCES Adherent(idAdherent)
 );
 
 
@@ -150,7 +174,7 @@ CREATE TABLE Abonnement(
    DateFin DATE NOT NULL,
    idAdherent INTEGER NOT NULL,
    PRIMARY KEY(idAbonnement),
-   FOREIGN KEY(idAdherent) REFERENCES Adherent(idUtilisateur)
+   FOREIGN KEY(idAdherent) REFERENCES Adherent(idAdherent)
 );
 
 CREATE TABLE Pret(
@@ -163,7 +187,7 @@ CREATE TABLE Pret(
    PRIMARY KEY(idPret),
    FOREIGN KEY(idExemplaire) REFERENCES Exemplaire(idExemplaire),
    FOREIGN KEY(idTypePret) REFERENCES TypePret(idTypePret),
-   FOREIGN KEY(idAdherent) REFERENCES Adherent(idUtilisateur)
+   FOREIGN KEY(idAdherent) REFERENCES Adherent(idAdherent)
 );
 
 CREATE TABLE Reprise(
@@ -257,6 +281,12 @@ INSERT INTO JourFerie (DateFerie, Nom) VALUES
 ('2025-12-25', 'Noël');
 
 
+INSERT INTO TypeUtilisateur VALUES 
+(default,'Adhérent'),
+(default,'Bibliothécaire');
+
+
+
 INSERT INTO Utilisateur (Nom, Email, MotDePasse, Telephone, Adresse, DateInscription, DateNaissance, idRole) VALUES
 -- Admin
 ('Admin Principal', 'admin@biblio.com', 'admin', '0321234567', 'Antananarivo', '2025-01-01', '1990-05-10', 1),
@@ -268,6 +298,9 @@ INSERT INTO Utilisateur (Nom, Email, MotDePasse, Telephone, Adresse, DateInscrip
 ('Jean Etudiant', 'jean@biblio.com', 'jeanpwd', '0345566778', 'Toamasina', '2025-02-01', '2001-07-20', 2),
 ('Lova Professeur', 'lova@biblio.com', 'lovapwd', '0329876543', 'Mahajanga', '2025-02-05', '1980-03-08', 2),
 ('Anjara Lecteur', 'anjara@biblio.com', 'anjara123', '0334455667', 'Toliara', '2025-02-10', '1995-11-11', 2);
+
+ALTER TABLE Utilisateur
+ALTER COLUMN idRole SET DEFAULT 2;
 
 INSERT INTO Bibliothecaire (idUtilisateur, DateEmbauche) VALUES
 (2, '2025-03-11');

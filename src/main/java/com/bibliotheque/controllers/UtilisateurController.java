@@ -19,13 +19,12 @@ public class UtilisateurController {
 
     @GetMapping("/user/inscription")
     public String inscription(Model model){
-        model.addAttribute("roles",roleService.findAll());
         return "inscription";
     }
 
-    @PostMapping("/user/insert")
+    /*@PostMapping("/user/insert")
     public String insertUser(){
-        
-    }
+
+    }*/
     
 }
