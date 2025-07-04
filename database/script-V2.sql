@@ -95,7 +95,7 @@ CREATE TABLE Utilisateur(
    Adresse VARCHAR(50)  NOT NULL,
    DateInscription DATE NOT NULL,
    DateNaissance DATE NOT NULL,
-   idTypeUtilisateur INTEGER NOT NULL,
+   idTypeUtilisateur INTEGER,
    idRole INTEGER NOT NULL,
    PRIMARY KEY(idUtilisateur),
    FOREIGN KEY(idRole) REFERENCES Role(idRole),
@@ -107,10 +107,10 @@ ALTER COLUMN DateInscription SET DEFAULT NOW();
 
 
 CREATE TABLE Bibliothecaire(
-   idBibliotheque INTEGER,
+   idBibliothecaire SERIAL,
    DateEmbauche DATE NOT NULL,
    idUtilisateur INTEGER NOT NULL,
-   PRIMARY KEY(idBibliotheque),
+   PRIMARY KEY(idBibliothecaire),
    FOREIGN KEY(idUtilisateur) REFERENCES Utilisateur(idUtilisateur)
 );
 
@@ -287,17 +287,17 @@ INSERT INTO TypeUtilisateur VALUES
 
 
 
-INSERT INTO Utilisateur (Nom, Email, MotDePasse, Telephone, Adresse, DateInscription, DateNaissance, idRole) VALUES
+INSERT INTO Utilisateur (Nom, Email, MotDePasse, Telephone, Adresse, DateInscription, DateNaissance,idTypeUtilisateur, idRole) VALUES
 -- Admin
-('Admin Principal', 'admin@biblio.com', 'admin', '0321234567', 'Antananarivo', '2025-01-01', '1990-05-10', 1),
+('Admin Principal', 'admin@biblio.com', 'admin', '0321234567', 'Antananarivo', '2025-01-01', '1990-05-10', NULL,1),
 
 -- Bibliothécaire
-('Claire Bibliothécaire', 'claire@biblio.com', 'clairepwd', '0331122334', 'Fianarantsoa', '2025-03-10', '1988-04-15', 2),
+('Claire Bibliothécaire', 'claire@biblio.com', 'clairepwd', '0331122334', 'Fianarantsoa', '2025-03-10', '1988-04-15',2, 2),
 
 -- Adhérents
-('Jean Etudiant', 'jean@biblio.com', 'jeanpwd', '0345566778', 'Toamasina', '2025-02-01', '2001-07-20', 2),
-('Lova Professeur', 'lova@biblio.com', 'lovapwd', '0329876543', 'Mahajanga', '2025-02-05', '1980-03-08', 2),
-('Anjara Lecteur', 'anjara@biblio.com', 'anjara123', '0334455667', 'Toliara', '2025-02-10', '1995-11-11', 2);
+('Jean Etudiant', 'jean@biblio.com', 'jeanpwd', '0345566778', 'Toamasina', '2025-02-01', '2001-07-20', 1,2),
+('Lova Professeur', 'lova@biblio.com', 'lovapwd', '0329876543', 'Mahajanga', '2025-02-05', '1980-03-08',1, 2),
+('Anjara Lecteur', 'anjara@biblio.com', 'anjara123', '0334455667', 'Toliara', '2025-02-10', '1995-11-11',1, 2);
 
 ALTER TABLE Utilisateur
 ALTER COLUMN idRole SET DEFAULT 2;
@@ -309,6 +309,13 @@ INSERT INTO Adherent (idUtilisateur, DateAdhesion, Actif, idTypeAdherent) VALUES
 (3, '2025-02-01', TRUE, 1),
 (4, '2025-02-05', TRUE, 2),
 (5, '2025-02-10', FALSE, 3);
+
+INSERT INTO Restriction (Age) VALUES 
+(10),  -- restriction enfant
+(16),  -- ado
+(18),  -- adulte
+(0),   -- aucune restriction
+(12);  -- pré-ado
 
 INSERT INTO Livre (Titre, DateSortie, Edition, NombreExemplaire, idRestriction, idCategorie, idAuteur)
 VALUES
@@ -346,11 +353,5 @@ INSERT INTO Exemplaire (NumeroExemplaire, DateAjout, status, idLivre) VALUES
 (4, '2024-06-13', 'Disponible', 5),
 (5, '2024-06-14', 'Emprunté', 5);
 
-INSERT INTO Restriction (Age) VALUES 
-(10),  -- restriction enfant
-(16),  -- ado
-(18),  -- adulte
-(0),   -- aucune restriction
-(12);  -- pré-ado
 
 
