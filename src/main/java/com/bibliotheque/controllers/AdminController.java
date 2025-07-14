@@ -9,20 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.bibliotheque.models.Livre;
-import com.bibliotheque.services.ExemplaireService;
-import com.bibliotheque.services.LivreService;
+import java.sql.Date;
 import com.bibliotheque.models.*;
 import com.bibliotheque.services.*;
-import com.bibliotheque.services.TypePretService;
-
-import com.bibliotheque.services.UtilisateurService;
-
-import com.bibliotheque.models.Utilisateur;
-
-import com.bibliotheque.models.Exemplaire;
-import com.bibliotheque.models.TypePret;
 
 
 @Controller
@@ -67,7 +56,11 @@ public class AdminController {
     }
 
     @PostMapping("/bibliothecaire/insertPret")
-    public String insertPret(@RequestParam("id_adherent") Integer id_adherent){
-
+    public String insertPret(
+                            @RequestParam("id_adherent") Integer id_adherent,
+                            @RequestParam("id_type_pret") Integer id_type_pret,
+                            @RequestParam("date_retour") Date date_retour,
+                            Model model){
+        
     }
 }
