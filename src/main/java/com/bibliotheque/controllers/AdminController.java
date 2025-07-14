@@ -64,7 +64,10 @@ public class AdminController {
        model.addAttribute("types",typePrets);
 
        return "bibliothecaire/pret";
+    }
 
+    @PostMapping("/bibliothecaire/insertPret")
+    public String insertPret(@RequestParam("id_adherent") Integer id_adherent){
 
     }
 }
