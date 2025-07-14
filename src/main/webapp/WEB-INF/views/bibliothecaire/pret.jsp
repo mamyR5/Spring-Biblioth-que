@@ -29,21 +29,21 @@
             <div class="modal-content">
                 <h1>Formulaire de prêt</h1>
 
-                <form action method="post" class="form">
+                <form action="" method="post" class="form">
                     
                    
 
                     <div class="form-group">
                         <label for id="text"><b>Exemplaire N°<%=exemplaire.getNumeroExemplaire() %></b> pour le livre
                             <b>"<%= livre.getTitre() %>"</b> </label>
-                        <label for id="text">Age minimal requis : <%=livre.getRestriction().getAge() %><b>
+                        <label for id="text">Age minimal requis : <b><%=livre.getRestriction().getAge() %>
                                 ans</b></label>
                     </div>
 
                     <div class="form-group">
 
                         <div class="custom-select">
-                            <input type="hidden" id="select-value"
+                            <input type="hidden" 
                                 name="id_adherent">
                             <label for="idAdherent">
                                 L'adhérent
@@ -67,8 +67,8 @@
 
                     <div class="form-group">
 
-                        <div class="custom-select">
-                            <input type="hidden" id="select-value"
+                        <div class="custom-select type-pret">
+                            <input type="hidden"
                                 name="id_type_pret">
                             <label for="TypePret">
                                 Choissisez votre type de prêt
@@ -82,7 +82,7 @@
                             </div>
                             <ul class="select-options">
                                 <% for (TypePret type : types) {%>
-                                  <li data-value="<%= type.getIdTypePret() %>"><%=type.getNom() %></li>
+                                  <li data-value="<%= type.getIdTypePret() %>" class="valueee"><%=type.getNom() %></li>
                                 <% }%>
                             </ul>
 
@@ -92,25 +92,27 @@
                     <div class="form-group" id="date_retour"
                         style="display: none;">
                         <label for>Date de retour</label>
-                        <input type="date">
+                        <input type="date" name="date_retour">
                     </div>
 
                     <div class="button">
                         <input type="submit" value="Valider">
+                    </div>
+                    <div class="button">
+                        <input type="submit" onclick="history.back()" value="Retour">
                     </div>
 
                 </form>
             </div>
         </div>
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-  // Gestion des custom selects
-  document.querySelectorAll(".custom-select").forEach(select => {
-    const selected = select.querySelector(".select-selected");
-    const options = select.querySelector(".select-options");
-    const arrow = select.querySelector(".arrow-icon");
-    const text = select.querySelector(".selected-text");
-    const hiddenInput = select.querySelector("input[type=hidden]");
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".custom-select").forEach(customSelect => {
+    const selected = customSelect.querySelector(".select-selected");
+    const options = customSelect.querySelector(".select-options");
+    const arrow = customSelect.querySelector(".arrow-icon");
+    const text = customSelect.querySelector(".selected-text");
+    const hiddenInput = customSelect.querySelector('input[type="hidden"]');
 
     selected.addEventListener("click", () => {
       const isOpen = options.style.display === "block";
@@ -121,40 +123,35 @@
     options.querySelectorAll("li").forEach(option => {
       option.addEventListener("click", () => {
         const value = option.getAttribute("data-value");
-        text.textContent = option.textContent;
+        const label = option.textContent;
+
+        text.textContent = label;
         if (hiddenInput) {
           hiddenInput.value = value;
-          hiddenInput.dispatchEvent(new Event("change")); // 🔥 déclenche manuellement l’événement
+          hiddenInput.dispatchEvent(new Event("change")); // Optionnel
         }
+
         options.style.display = "none";
         if (arrow) arrow.style.transform = "rotate(0deg)";
       });
     });
 
-    // Ferme si on clique en dehors
+    // Fermer quand on clique à l'extérieur
     document.addEventListener("click", (e) => {
-      if (!select.contains(e.target)) {
+      if (!customSelect.contains(e.target)) {
         options.style.display = "none";
         if (arrow) arrow.style.transform = "rotate(0deg)";
       }
     });
   });
-  });
+});
 
 
-  // Ferme si on clique en dehors
-  document.addEventListener("click", (e) => {
-    if (!select.contains(e.target)) {
-      options.style.display = "none";
-      arrow.style.transform = "rotate(0deg)";
-    }
-  });
 
-
-document.addEventListener("DOMContentLoaded", () => {
+/*document.addEventListener("DOMContentLoaded", () => {
   const dateRetourDiv = document.getElementById("date_retour");
-  const typePretInput = document.getElementById("select-value");
-  const selectOptions = document.querySelectorAll(".select-options li");
+  const typePretInput = document.querySelector('input[name="id_type_pret"]');
+  const selectOptions = document.querySelectorAll(".select-options li valueee");
   const selectedText = document.querySelector(".selected-text");
 
   selectOptions.forEach((option) => {
@@ -173,7 +170,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+});*/
+document.querySelector('input[name="id_type_pret"]').addEventListener("change", (e) => {
+  const value = e.target.value;
+  document.getElementById("date_retour").style.display = (value === "1") ? "" : "none";
 });
+
 
         </script>
     </body>

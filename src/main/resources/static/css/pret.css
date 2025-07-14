@@ -55,13 +55,13 @@ body{
    .form {
        display: flex;
        margin-top: 4%;
+       margin-left: 8%;
        flex-direction: column;
    }
 
 
 
    .form-group {
-       margin-bottom: 24px;
        display: flex;
        width: 360px;
        flex-direction: column;
@@ -184,4 +184,8 @@ body{
 
    #text{
     margin-bottom: 4%;
+   }
+
+   .button{
+     margin-left: 40%;
    }

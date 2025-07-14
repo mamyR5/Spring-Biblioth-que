@@ -25,7 +25,6 @@ import com.bibliotheque.services.TypeAdherentService;
 import com.bibliotheque.services.TypePretService;
 import com.bibliotheque.services.TypeUtilisateurService;
 import com.bibliotheque.services.UtilisateurService;
-
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -90,7 +89,7 @@ public class UtilisateurController {
                                     @RequestParam("idTypeAdherent") String idTypeAdherent,
                                     @RequestParam("MotDePasse") String motDePasse,
                                     @RequestParam("DateNaissance") String dateNaissance,
-                                    Model model){
+                                    Model model,HttpSession session){
         //System.out.println("idTypeUtilisateur = " + idTypeUtilisateur);
 
         Utilisateur u = new Utilisateur();
@@ -102,6 +101,7 @@ public class UtilisateurController {
         u.setDateNaissance(Date.valueOf(dateNaissance));
         Optional<Role> role = this.roleService.findById(2);
         Optional<TypeUtilisateur> typeUser = this.typeUtilisateurService.findById(Integer.parseInt(idTypeUtilisateur));
+
 
         if(role.isPresent() && typeUser.isPresent()){
             u.setRole(role.get());
@@ -115,6 +115,7 @@ public class UtilisateurController {
             Bibliothecaire b = new Bibliothecaire();
             b.setUtilisateur(u);
             this.bibliothecaireService.save(b);
+            session.setAttribute("idUtilisateur", u.getIdUtilisateur());
 
             return "redirect:/bibliothecaire/home";
         }else if("1".equals(idTypeUtilisateur)) {
@@ -127,6 +128,7 @@ public class UtilisateurController {
                 a.setTypeAdherent(typeAdherent.get());                
                 this.adherentService.save(a);
             }
+            session.setAttribute("idUtilisateur", u.getIdUtilisateur());
             return "redirect:/user/home";
         }
 
