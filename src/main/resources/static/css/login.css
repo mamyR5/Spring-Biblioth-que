@@ -13,6 +13,13 @@ html,body{
     /*flex-shrink: 0;*/
 }
 
+.erreur{
+    margin-left: 18.8%;
+    margin-top: 4%;
+    margin-bottom: 1.6%;
+    color: red;
+}
+
 body{
     background-color: #c1dff68a;
 }
@@ -163,5 +170,31 @@ label{
     margin-top: 36%;
     margin-left: 16%;
     font-size: 47.78px;
+}
+
+
+.input-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon input {
+  width: 100%;
+  padding-right: 40px; /* Espace pour l’icône */
+}
+
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+}
+
+.toggle-password img {
+  width: 22px;
+  height: 22px;
+  opacity: 0.6;
+  margin-top: 68%;
 }
 

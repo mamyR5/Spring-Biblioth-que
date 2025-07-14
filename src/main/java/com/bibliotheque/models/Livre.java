@@ -4,45 +4,47 @@ import java.sql.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import com.bibliotheque.models.*;
-import io.micrometer.common.lang.Nullable;
-import jakarta.persistence.*;
 
 @Entity
 @Table(name="Livre")
+
 public class Livre{
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="idLivre")
+    @Column(name="id_livre")
     private Integer idlivre;
 
-    @Column(name="Titre")
+    @Column(name="titre")
     private String titre;
 
-    @Column(name="DateSortie")
+    @Column(name="date_sortie")
     private Date datesortie;
 
-    @Column(name="Edition")
+    @Column(name="edition")
     private String edition;
     
-    @Column(name="NombreExemplaire")
+    @Column(name="nombre_exemplaire")
     private Integer nbExemplaire;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)  // un livre a obligatoirement un auteur
-    @JoinColumn(name = "idCategorie", nullable = false)    
+    @JoinColumn(name = "id_categorie", nullable = false)    
     private Categorie categorie;
 
     // Suppression du champ idauteur int, remplacé par la relation ManyToOne
     @ManyToOne(fetch = FetchType.LAZY, optional = false)  // un livre a obligatoirement un auteur
-    @JoinColumn(name = "idAuteur", nullable = false)
+    @JoinColumn(name = "id_auteur", nullable = false)
     private Auteur auteur;
 
     @OneToOne(fetch = FetchType.LAZY,optional=false)
-    @JoinColumn(name="idRestriction",nullable=false)
+    @JoinColumn(name="id_restriction",nullable=false)
     private Restriction restriction;
 
     public Integer getIdlivre() {

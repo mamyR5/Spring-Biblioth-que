@@ -21,6 +21,6 @@ public class LivreController {
     public String listLivre(Model model) {
         model.addAttribute("livres", livreService.findAll());
         model.addAttribute("exemplaires",exemplaireService.findAll());
-        return "page"; // retour de la vue src/main/webapp/WEB-INF/views/index.jsp
+        return "adherent/home"; // retour de la vue src/main/webapp/WEB-INF/views/index.jsp
     }
 }

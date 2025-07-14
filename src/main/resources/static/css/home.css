@@ -1,0 +1,97 @@
+
+
+    body {
+      background-color: #f3f4f6;
+      padding: 40px;
+    }
+
+    h1{
+        color:#0F2942;
+        margin-top: 4%;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 4%;
+      gap: 20px;
+    }
+
+    .card {
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 260px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .titre-container {
+      background-color: #5E7892;
+      border-radius: 12px 12px 0 0;
+      color: #fff;
+      padding: 20px;
+      position: relative;
+      height: 150px;
+      display: flex;
+      align-items: center;
+    }
+
+    .categorie {
+      position: absolute;
+      top: 12px;
+      right: 20px;
+      font-size: 0.85em;
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 4px 10px;
+      border-radius: 12px;
+    }
+
+    .titre {
+      font-size: 1.4em;
+      font-weight: bold;
+      line-height: 1.2;
+    }
+
+    .description {
+      padding: 16px;
+      display: flex;
+      gap: 42px;
+    }
+
+    .auteur {
+      font-size: 0.95em;
+      color: #555;
+      font-style: italic;
+    }
+
+    .dateSortie{
+        display: flex;
+        justify-content: flex-end;
+        color: #555;
+        font-style: italic;
+    }
+
+    .Statut {
+      color: #0f294292;
+      font-size: 0.85em;
+      background-color: #C1DFF6;
+      border-radius: 12px;
+      padding-top: 4%;
+      width: 12vh;
+      padding-left: 4.8%;
+      padding-right: 2%;
+      font-weight: 640;
+      margin-left: -4%;
+    }
+
+  .Statut a{
+    text-decoration: none;
+    color: #0f2942;
+   }
+
+    

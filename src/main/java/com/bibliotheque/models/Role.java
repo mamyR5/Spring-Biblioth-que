@@ -5,15 +5,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
-import java.sql.Date;
-
-import javax.annotation.processing.Generated;
 @Entity
 public class Role {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="idrole")
+    @Column(name="id_Role")
     private Integer idRole;
 
     @Column(name="Nom")

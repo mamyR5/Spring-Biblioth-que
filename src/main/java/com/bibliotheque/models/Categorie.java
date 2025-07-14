@@ -1,6 +1,11 @@
 package com.bibliotheque.models;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name="Categorie")
@@ -8,17 +13,17 @@ public class Categorie {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="idcategorie")
-    private Integer idlivre;
-    @Column(name="nom")
+    @Column(name="id_Categorie")
+    private Integer idCategorie;
+    @Column(name="Nom")
     private String nom;
 
-    public Integer getIdlivre() {
-        return idlivre;
+    public Integer getIdCategorie() {
+        return this.idCategorie;
     }
 
-    public void setIdlivre(Integer idlivre) {
-        this.idlivre = idlivre;
+    public void setIdCategorie(Integer idCategorie) {
+        this.idCategorie = idCategorie;
     }
 
     public String getNom() {

@@ -18,7 +18,7 @@ body {
 }
 
 .box {
-    height: 144vh; /* un peu plus haut que le login */
+    height: 158vh; /* un peu plus haut que le login */
     justify-content: center;
     align-items: center;
 }
@@ -297,4 +297,30 @@ input:-webkit-autofill {
 
 .select-selected{
     margin-top: 4%;
+}
+
+
+.input-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon input {
+  width: 100%;
+  padding-right: 40px; /* Espace pour l’icône */
+}
+
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+}
+
+.toggle-password img {
+  width: 22px;
+  height: 22px;
+  opacity: 0.6;
+  margin-top: 68%;
 }

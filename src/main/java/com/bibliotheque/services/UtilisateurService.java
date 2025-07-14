@@ -25,14 +25,13 @@ public class UtilisateurService {
         return this.utilisateurRepository.authentificationLogin(email, pwd);
     }
 
+    public List<Utilisateur> findAll(){
+        return this.utilisateurRepository.findAll();
+    }
 
     public void inscription(Utilisateur user){
         this.utilisateurRepository.save(user);
     }
 
     
-
-
-
-
 }

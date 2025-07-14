@@ -1,6 +1,7 @@
 package com.bibliotheque.services;
 
 import java.util.List;
+import java.util.Optional;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,10 @@ public class ExemplaireService {
 
     public List<Exemplaire> findByIdlivre(Integer id){
         return this.exemplaireRepository.findByIdlivre(id);
+    }
+
+    public Optional<Exemplaire> findById(Integer id){
+        return this.exemplaireRepository.findById(id);
     }
 
 

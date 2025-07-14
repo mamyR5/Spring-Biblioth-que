@@ -19,7 +19,7 @@ import jakarta.persistence.Table;
 public class Utilisateur {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="idutilisateur")
+    @Column(name="id_utilisateur")
     private Integer idUtilisateur;
 
     @Column(name="nom")
@@ -28,7 +28,7 @@ public class Utilisateur {
     @Column(name="email")
     private String email;
 
-    @Column(name="motdepasse")
+    @Column(name="mot_de_passe")
     private String motDePasse;
 
     @Column(name="telephone")
@@ -37,26 +37,26 @@ public class Utilisateur {
     @Column(name="adresse")
     private String adresse;
 
-    @Column(name="dateinscription")
+    @Column(name="date_inscription", updatable = false, insertable = false)
     private Date dateInscription;
 
-    @Column(name="datenaissance")
+    @Column(name="date_naissance")
     private Date dateNaissance;
 
     @ManyToOne
-    @JoinColumn(name="idrole")
+    @JoinColumn(name="id_role")
     private Role role;
 
     @ManyToOne
-    @JoinColumn(name="idtypeutilisateur")
-    private TypeUtilisateur idTypeUtilisateur;
+    @JoinColumn(name="id_type_utilisateur")
+    private TypeUtilisateur typeUtilisateur;
 
-    public TypeUtilisateur getIdTypeUtilisateur() {
-        return idTypeUtilisateur;
+    public TypeUtilisateur getTypeUtilisateur() {
+        return typeUtilisateur;
     }
 
-    public void setIdTypeUtilisateur(TypeUtilisateur idTypeUtilisateur) {
-        this.idTypeUtilisateur = idTypeUtilisateur;
+    public void setTypeUtilisateur(TypeUtilisateur TypeUtilisateur) {
+        this.typeUtilisateur = TypeUtilisateur;
     }
 
     public Integer getIdUtilisateur() {

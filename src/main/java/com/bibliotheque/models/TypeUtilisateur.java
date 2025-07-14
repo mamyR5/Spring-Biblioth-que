@@ -13,10 +13,10 @@ public class TypeUtilisateur{
     
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="idtypeutilisateur")
+    @Column(name="id_Type_Utilisateur")
     private Integer idTypeUtilisateur;
 
-    @Column(name="nom")
+    @Column(name="Nom")
     private String nom;
 
     public Integer getIdTypeUtilisateur() {
@@ -28,7 +28,7 @@ public class TypeUtilisateur{
     }
 
     public String getNom() {
-        return this.nom;
+        return this.nom.replaceAll("‚", "é");
     }
 
     public void setNom(String Nom) {

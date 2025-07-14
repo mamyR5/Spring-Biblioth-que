@@ -13,7 +13,7 @@ import com.bibliotheque.models.Utilisateur;
 
 @Repository
 public interface UtilisateurRepository extends JpaRepository<Utilisateur, Integer>{
-    @Query(value="SELECT * FROM Utilisateur WHERE Email=:email AND MotDePasse=:motDePasse",nativeQuery=true)
+    @Query(value="SELECT * FROM Utilisateur WHERE Email=:email AND Mot_De_Passe=:motDePasse",nativeQuery=true)
     Optional<Utilisateur> authentificationLogin(@Param("email") String email,@Param("motDePasse") String motDePasse);
 
 

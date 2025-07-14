@@ -1,7 +1,16 @@
 package com.bibliotheque.models;
 
-import jakarta.persistence.*;
 import java.sql.Date;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name="Exemplaire")
@@ -9,25 +18,24 @@ public class Exemplaire {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="idExemplaire")
-    private Integer idexemplaire;
-    @Column(name="NumeroExemplaire  ")
+    @Column(name="id_exemplaire")
+    private Integer idExemplaire;
+    @Column(name="numero_exemplaire")
     private Integer numeroExemplaire;
-    @Column(name="DateAjout ")
+    @Column(name="date_ajout")
     private Date dateAjout;
-    @Column(name="status ")
+    @Column(name="status")
     private String status;
-
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idLivre",nullable=false)
+    @JoinColumn(name="id_livre",nullable=false)
     private Livre livre;
 
-    public Integer getIdexemplaire() {
-        return idexemplaire;
+    public Integer getIdExemplaire() {
+        return this.idExemplaire;
     }
 
-    public void setIdexemplaire(Integer idexemplaire) {
-        this.idexemplaire = idexemplaire;
+    public void setIdExemplaire(Integer idExemplaire) {
+        this.idExemplaire = idExemplaire;
     }
 
     public Integer getNumeroExemplaire() {
@@ -47,7 +55,7 @@ public class Exemplaire {
     }
 
     public String getStatus() {
-        return status;
+        return status.replaceAll("‚", "é");
     }
 
     public void setStatus(String status) {

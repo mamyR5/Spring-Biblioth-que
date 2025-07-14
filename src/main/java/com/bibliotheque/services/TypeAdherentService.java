@@ -1,6 +1,7 @@
 package com.bibliotheque.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,10 @@ public class TypeAdherentService {
 
     public List<TypeAdherent> findAll(){
         return this.repository.findAll();
+    }
+
+    public Optional<TypeAdherent> findById(Integer id){
+        return this.repository.findById(id);
     }
 
 }

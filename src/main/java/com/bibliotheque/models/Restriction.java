@@ -1,16 +1,21 @@
 package com.bibliotheque.models;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name="Restriction")
 public class Restriction {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="idrestriction")
+    @Column(name="id_Restriction")
     private Integer idRestriction;
 
-    @Column(name="age")
+    @Column(name="Age")
     private Integer age;
 
     public Integer getIdRestriction() {

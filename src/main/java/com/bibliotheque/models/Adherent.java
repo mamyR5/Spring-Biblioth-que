@@ -16,22 +16,22 @@ public class Adherent{
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="idadherent")
+    @Column(name="id_Adherent")
     private Integer idAdherent;
 
 
     @OneToOne
-    @JoinColumn(name="idUtilisateur")
+    @JoinColumn(name="id_Utilisateur")
     private Utilisateur utilisateur;
 
-    @Column(name="dateadhesion")
+    @Column(name="Date_Adhesion",updatable = false, insertable = false)
     private Date dateAdhesion;
 
-    @Column(name="actif")
+    @Column(name="Actif")
     private boolean actif;
 
     @ManyToOne
-    @JoinColumn(name="idtypeadherent")
+    @JoinColumn(name="id_Type_Adherent")
     private TypeAdherent typeAdherent;
 
        

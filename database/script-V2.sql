@@ -2,227 +2,227 @@ CREATE DATABASE bibliotheque;
 \c bibliotheque;
 
 CREATE TABLE Auteur(
-   idAuteur SERIAL,
+   id_Auteur SERIAL,
    Nom VARCHAR(100)  NOT NULL,
-   PRIMARY KEY(idAuteur)
+   PRIMARY KEY(id_Auteur)
 );
 
 CREATE TABLE Categorie(
-   idCategorie SERIAL,
+   id_Categorie SERIAL,
    Nom VARCHAR(100)  NOT NULL,
-   PRIMARY KEY(idCategorie)
+   PRIMARY KEY(id_Categorie)
 );
 
 CREATE TABLE Role(
-   idRole SERIAL,
+   id_Role SERIAL,
    Nom VARCHAR(50)  NOT NULL,
-   PRIMARY KEY(idRole)
+   PRIMARY KEY(id_Role)
 );
 
 CREATE TABLE TypeAdherent(
-   idTypeAdherent SERIAL,
+   id_Type_Adherent SERIAL,
    Nom VARCHAR(50)  NOT NULL,
    Quota INTEGER NOT NULL,
-   NbJourPret INTEGER NOT NULL,
-   NbJourPenalite INTEGER NOT NULL,
-   PRIMARY KEY(idTypeAdherent)
+   Nb_Jour_Pret INTEGER NOT NULL,
+   Nb_Jour_Penalite INTEGER NOT NULL,
+   PRIMARY KEY(id_Type_Adherent)
 );
 
 
 CREATE TABLE TypePret(
-   idTypePret SERIAL,
+   id_Type_Pret SERIAL,
    Nom VARCHAR(100)  NOT NULL,
-   PRIMARY KEY(idTypePret)
+   PRIMARY KEY(id_Type_Pret)
 );
 
 CREATE TABLE TypeMouvement(
-   idTypeMouvement SERIAL,
+   id_Type_Mouvement SERIAL,
    Nom VARCHAR(100)  NOT NULL,
-   PRIMARY KEY(idTypeMouvement)
+   PRIMARY KEY(id_Type_Mouvement)
 );
 
 CREATE TABLE JourFerie(
-   idJourFerie SERIAL,
-   DateFerie DATE NOT NULL,
+   id_Jour_Ferie SERIAL,
+   Date_Ferie DATE NOT NULL,
    Nom VARCHAR(100)  NOT NULL,
-   PRIMARY KEY(idJourFerie)
+   PRIMARY KEY(id_Jour_Ferie)
 );
 
 CREATE TABLE Validation(
-   idValidation SERIAL,
+   id_Validation SERIAL,
    Nom CHAR(50)  NOT NULL,
-   PRIMARY KEY(idValidation)
+   PRIMARY KEY(id_Validation)
 );
 
 
 
 CREATE TABLE Restriction(
-   idRestriction SERIAL,
+   id_Restriction SERIAL,
    Age INTEGER NOT NULL,
-   PRIMARY KEY(idRestriction)
+   PRIMARY KEY(id_Restriction)
 );
 
 
 CREATE TABLE Livre(
-   idLivre SERIAL,
+   id_Livre SERIAL,
    Titre VARCHAR(100)  NOT NULL,
-   DateSortie DATE NOT NULL,
+   Date_Sortie DATE NOT NULL,
    Edition VARCHAR(50) ,
-   NombreExemplaire INTEGER NOT NULL,
-   idRestriction INTEGER NOT NULL,
-   idCategorie INTEGER NOT NULL,
-   idAuteur INTEGER NOT NULL,
-   PRIMARY KEY(idLivre),
-   FOREIGN KEY(idRestriction) REFERENCES Restriction(idRestriction),
-   FOREIGN KEY(idCategorie) REFERENCES Categorie(idCategorie),
-   FOREIGN KEY(idAuteur) REFERENCES Auteur(idAuteur)
+   Nombre_Exemplaire INTEGER NOT NULL,
+   id_Restriction INTEGER NOT NULL,
+   id_Categorie INTEGER NOT NULL,
+   id_Auteur INTEGER NOT NULL,
+   PRIMARY KEY(id_Livre),
+   FOREIGN KEY(id_Restriction) REFERENCES Restriction(id_Restriction),
+   FOREIGN KEY(id_Categorie) REFERENCES Categorie(id_Categorie),
+   FOREIGN KEY(id_Auteur) REFERENCES Auteur(id_Auteur)
 );
 
 CREATE TABLE TypeUtilisateur(
-   idTypeUtilisateur SERIAL,
+   id_Type_Utilisateur SERIAL,
    Nom CHAR(50)  NOT NULL,
-   PRIMARY KEY(idTypeUtilisateur)
+   PRIMARY KEY(id_Type_Utilisateur)
 );
 
 
 
 CREATE TABLE Utilisateur(
-   idUtilisateur SERIAL,
+   id_Utilisateur SERIAL,
    Nom VARCHAR(100)  NOT NULL,
    Email VARCHAR(100)  NOT NULL,
-   MotDePasse VARCHAR(100)  NOT NULL,
+   Mot_De_Passe VARCHAR(100)  NOT NULL,
    Telephone VARCHAR(50)  NOT NULL,
    Adresse VARCHAR(50)  NOT NULL,
-   DateInscription DATE NOT NULL,
-   DateNaissance DATE NOT NULL,
-   idTypeUtilisateur INTEGER,
-   idRole INTEGER NOT NULL,
-   PRIMARY KEY(idUtilisateur),
-   FOREIGN KEY(idRole) REFERENCES Role(idRole),
-   FOREIGN KEY(idTypeUtilisateur) REFERENCES TypeUtilisateur(idTypeUtilisateur)
+   Date_Inscription DATE NOT NULL,
+   Date_Naissance DATE NOT NULL,
+   id_Type_Utilisateur INTEGER,
+   id_Role INTEGER NOT NULL,
+   PRIMARY KEY(id_Utilisateur),
+   FOREIGN KEY(id_Role) REFERENCES Role(id_Role),
+   FOREIGN KEY(id_Type_Utilisateur) REFERENCES TypeUtilisateur(id_Type_Utilisateur)
 );
 
 ALTER TABLE Utilisateur
-ALTER COLUMN DateInscription SET DEFAULT NOW();
+ALTER COLUMN Date_Inscription SET DEFAULT NOW();
 
 
 CREATE TABLE Bibliothecaire(
-   idBibliothecaire SERIAL,
-   DateEmbauche DATE NOT NULL,
-   idUtilisateur INTEGER NOT NULL,
-   PRIMARY KEY(idBibliothecaire),
-   FOREIGN KEY(idUtilisateur) REFERENCES Utilisateur(idUtilisateur)
+   id_Bibliothecaire SERIAL,
+   Date_Embauche DATE NOT NULL,
+   id_Utilisateur INTEGER NOT NULL,
+   PRIMARY KEY(id_Bibliothecaire),
+   FOREIGN KEY(id_Utilisateur) REFERENCES Utilisateur(id_Utilisateur)
 );
 
 ALTER TABLE Bibliothecaire
-ALTER COLUMN DateEmbauche SET DEFAULT NOW();
+ALTER COLUMN Date_Embauche SET DEFAULT NOW();
 
 
 CREATE TABLE Adherent(
-      idAdherent SERIAL,
-      DateAdhesion DATE NOT NULL,
+      id_Adherent SERIAL,
+      Date_Adhesion DATE NOT NULL,
       Actif BOOLEAN NOT NULL,
-      idUtilisateur INTEGER NOT NULL,
-      idTypeAdherent INTEGER NOT NULL,
-      PRIMARY KEY(idAdherent),
-      FOREIGN KEY(idUtilisateur) REFERENCES Utilisateur(idUtilisateur),
-      FOREIGN KEY(idTypeAdherent) REFERENCES TypeAdherent(idTypeAdherent)
+      id_Utilisateur INTEGER NOT NULL,
+      id_Type_Adherent INTEGER NOT NULL,
+      PRIMARY KEY(id_Adherent),
+      FOREIGN KEY(id_Utilisateur) REFERENCES Utilisateur(id_Utilisateur),
+      FOREIGN KEY(id_Type_Adherent) REFERENCES TypeAdherent(id_Type_Adherent)
 );
 
 
 ALTER TABLE Adherent
-ALTER COLUMN DateAdhesion SET DEFAULT NOW();
+ALTER COLUMN Date_Adhesion SET DEFAULT NOW();
 
 
 CREATE TABLE Exemplaire(
-   idExemplaire SERIAL,
-   NumeroExemplaire INTEGER NOT NULL,
-   DateAjout DATE NOT NULL,
+   id_Exemplaire SERIAL,
+   Numero_Exemplaire INTEGER NOT NULL,
+   Date_Ajout DATE NOT NULL,
    status VARCHAR(50) ,
-   idLivre INTEGER NOT NULL,
-   PRIMARY KEY(idExemplaire),
-   FOREIGN KEY(idLivre) REFERENCES Livre(idLivre)
+   id_Livre INTEGER NOT NULL,
+   PRIMARY KEY(id_Exemplaire),
+   FOREIGN KEY(id_Livre) REFERENCES Livre(id_Livre)
 );
 
 CREATE TABLE Reservation(
-   idReservation SERIAL,
+   id_Reservation SERIAL,
    Statut VARCHAR(50)  NOT NULL,
-   DateReservation DATE NOT NULL,
-   idValidation INTEGER NOT NULL,
-   idAdherent INTEGER NOT NULL,
-   idExemplaire INTEGER NOT NULL,
-   PRIMARY KEY(idReservation),
-   FOREIGN KEY(idValidation) REFERENCES Validation(idValidation),
-   FOREIGN KEY(idAdherent) REFERENCES Adherent(idAdherent),
-   FOREIGN KEY(idExemplaire) REFERENCES Exemplaire(idExemplaire)
+   Date_Reservation DATE NOT NULL,
+   id_Validation INTEGER NOT NULL,
+   id_Adherent INTEGER NOT NULL,
+   id_Exemplaire INTEGER NOT NULL,
+   PRIMARY KEY(id_Reservation),
+   FOREIGN KEY(id_Validation) REFERENCES Validation(id_Validation),
+   FOREIGN KEY(id_Adherent) REFERENCES Adherent(id_Adherent),
+   FOREIGN KEY(id_Exemplaire) REFERENCES Exemplaire(id_Exemplaire)
 );
 
 CREATE TABLE Penalite(
-   idPenalite SERIAL,
-   DateDebut DATE NOT NULL,
-   DateFin DATE NOT NULL,
-   idAdherent INTEGER NOT NULL,
-   PRIMARY KEY(idPenalite),
-   FOREIGN KEY(idAdherent) REFERENCES Adherent(idAdherent)
+   id_Penalite SERIAL,
+   Date_Debut DATE NOT NULL,
+   Date_Fin DATE NOT NULL,
+   id_Adherent INTEGER NOT NULL,
+   PRIMARY KEY(id_Penalite),
+   FOREIGN KEY(id_Adherent) REFERENCES Adherent(id_Adherent)
 );
 
 
 
 CREATE TABLE Abonnement(
-   idAbonnement SERIAL,
-   DateDebut DATE NOT NULL,
-   DateFin DATE NOT NULL,
-   idAdherent INTEGER NOT NULL,
-   PRIMARY KEY(idAbonnement),
-   FOREIGN KEY(idAdherent) REFERENCES Adherent(idAdherent)
+   id_Abonnement SERIAL,
+   Date_Debut DATE NOT NULL,
+   Date_Fin DATE NOT NULL,
+   id_Adherent INTEGER NOT NULL,
+   PRIMARY KEY(id_Abonnement),
+   FOREIGN KEY(id_Adherent) REFERENCES Adherent(id_Adherent)
 );
 
 CREATE TABLE Pret(
-   idPret SERIAL,
-   DatePret DATE NOT NULL,
-   DatePrevue DATE,
-   idExemplaire INTEGER NOT NULL,
-   idTypePret INTEGER NOT NULL,
-   idAdherent INTEGER NOT NULL,
-   PRIMARY KEY(idPret),
-   FOREIGN KEY(idExemplaire) REFERENCES Exemplaire(idExemplaire),
-   FOREIGN KEY(idTypePret) REFERENCES TypePret(idTypePret),
-   FOREIGN KEY(idAdherent) REFERENCES Adherent(idAdherent)
+   id_Pret SERIAL,
+   Date_Pret DATE NOT NULL,
+   Date_Prevue DATE,
+   id_Exemplaire INTEGER NOT NULL,
+   id_Type_Pret INTEGER NOT NULL,
+   id_Adherent INTEGER NOT NULL,
+   PRIMARY KEY(id_Pret),
+   FOREIGN KEY(id_Exemplaire) REFERENCES Exemplaire(id_Exemplaire),
+   FOREIGN KEY(id_Type_Pret) REFERENCES TypePret(id_Type_Pret),
+   FOREIGN KEY(id_Adherent) REFERENCES Adherent(id_Adherent)
 );
 
 CREATE TABLE Reprise(
-   idReprise SERIAL,
-   DateReprise DATE NOT NULL,
-   idExemplaire INTEGER NOT NULL,
-   idPret INTEGER NOT NULL,
-   PRIMARY KEY(idReprise),
-   FOREIGN KEY(idExemplaire) REFERENCES Exemplaire(idExemplaire),
-   FOREIGN KEY(idPret) REFERENCES Pret(idPret)
+   id_Reprise SERIAL,
+   Date_Reprise DATE NOT NULL,
+   id_Exemplaire INTEGER NOT NULL,
+   id_Pret INTEGER NOT NULL,
+   PRIMARY KEY(id_Reprise),
+   FOREIGN KEY(id_Exemplaire) REFERENCES Exemplaire(id_Exemplaire),
+   FOREIGN KEY(id_Pret) REFERENCES Pret(id_Pret)
 );
 
 CREATE TABLE ProlongementPret(
-   idProlongementPret SERIAL,
-   DateProlongement DATE NOT NULL,
-   DateFin DATE NOT NULL,
-   idValidation INTEGER NOT NULL,
-   idPret INTEGER NOT NULL,
-   PRIMARY KEY(idProlongementPret),
-   UNIQUE(idPret),
-   FOREIGN KEY(idValidation) REFERENCES Validation(idValidation),
-   FOREIGN KEY(idPret) REFERENCES Pret(idPret)
+   id_Prolongement_Pret SERIAL,
+   Date_Prolongement DATE NOT NULL,
+   Date_Fin DATE NOT NULL,
+   id_Validation INTEGER NOT NULL,
+   id_Pret INTEGER NOT NULL,
+   PRIMARY KEY(id_Prolongement_Pret),
+   UNIQUE(id_Pret),
+   FOREIGN KEY(id_Validation) REFERENCES Validation(id_Validation),
+   FOREIGN KEY(id_Pret) REFERENCES Pret(id_Pret)
 );
 
 CREATE TABLE MouvementExemplaire(
-   idMouvementExemplaire SERIAL,
+   id_Mouvement_Exemplaire SERIAL,
    Nombre INTEGER NOT NULL,
-   DateMouvement DATE NOT NULL,
-   idPret INTEGER NOT NULL,
-   idTypeMouvement INTEGER NOT NULL,
-   idExemplaire INTEGER NOT NULL,
-   PRIMARY KEY(idMouvementExemplaire),
-   FOREIGN KEY(idPret) REFERENCES Pret(idPret),
-   FOREIGN KEY(idTypeMouvement) REFERENCES TypeMouvement(idTypeMouvement),
-   FOREIGN KEY(idExemplaire) REFERENCES Exemplaire(idExemplaire)
+   Date_Mouvement DATE NOT NULL,
+   id_Pret INTEGER NOT NULL,
+   id_Type_Mouvement INTEGER NOT NULL,
+   id_Exemplaire INTEGER NOT NULL,
+   PRIMARY KEY(id_Mouvement_Exemplaire),
+   FOREIGN KEY(id_Pret) REFERENCES Pret(id_Pret),
+   FOREIGN KEY(id_Type_Mouvement) REFERENCES TypeMouvement(id_Type_Mouvement),
+   FOREIGN KEY(id_Exemplaire) REFERENCES Exemplaire(id_Exemplaire)
 );
 
 INSERT INTO Auteur (Nom) VALUES
@@ -243,7 +243,7 @@ INSERT INTO Role (Nom) VALUES
 ('Admin'),
 ('Utilisateur');
 
-INSERT INTO TypeAdherent (Nom, NbJourPret, Quota,NbJourPenalite) VALUES
+INSERT INTO TypeAdherent (Nom, Nb_Jour_Pret, Quota,Nb_Jour_Penalite) VALUES
 ('Etudiant', 15, 3,10),
 ('Professeur', 30, 5,5),
 ('Anonyme', 7, 1,15);
@@ -263,7 +263,7 @@ INSERT INTO TypeMouvement (Nom) VALUES
 ('Prêt'),
 ('Reprise');
 
-INSERT INTO JourFerie (DateFerie, Nom) VALUES
+INSERT INTO JourFerie (Date_Ferie, Nom) VALUES
 ('2025-01-01', 'Nouvel an'),
 ('2025-03-29', 'Commémoration des martyrs de l''insurrection de 1947'),
 ('2025-04-18', 'Vendredi Saint'),
@@ -283,7 +283,7 @@ INSERT INTO TypeUtilisateur VALUES
 
 
 
-INSERT INTO Utilisateur (Nom, Email, MotDePasse, Telephone, Adresse, DateInscription, DateNaissance,idTypeUtilisateur, idRole) VALUES
+INSERT INTO Utilisateur (Nom, Email, Mot_De_Passe, Telephone, Adresse, Date_Inscription, Date_Naissance,id_Type_Utilisateur, id_Role) VALUES
 -- Admin
 ('Admin Principal', 'admin@biblio.com', 'admin', '0321234567', 'Antananarivo', '2025-01-01', '1990-05-10', NULL,1),
 
@@ -296,10 +296,10 @@ INSERT INTO Utilisateur (Nom, Email, MotDePasse, Telephone, Adresse, DateInscrip
 ('Anjara Lecteur', 'anjara@biblio.com', 'anjara123', '0334455667', 'Toliara', '2025-02-10', '1995-11-11',1, 2);
 
 
-INSERT INTO Bibliothecaire (idUtilisateur, DateEmbauche) VALUES
+INSERT INTO Bibliothecaire (id_Utilisateur, Date_Embauche) VALUES
 (2, '2025-03-11');
 
-INSERT INTO Adherent (idUtilisateur, DateAdhesion, Actif, idTypeAdherent) VALUES
+INSERT INTO Adherent (id_Utilisateur, Date_Adhesion, Actif, id_Type_Adherent) VALUES
 (3, '2025-02-01', TRUE, 1),
 (4, '2025-02-05', TRUE, 2),
 (5, '2025-02-10', FALSE, 3);
@@ -311,7 +311,7 @@ INSERT INTO Restriction (Age) VALUES
 (0),   -- aucune restriction
 (12);  -- pré-ado
 
-INSERT INTO Livre (Titre, DateSortie, Edition, NombreExemplaire, idRestriction, idCategorie, idAuteur)
+INSERT INTO Livre (Titre, Date_Sortie, Edition, Nombre_Exemplaire, id_Restriction, id_Categorie, id_Auteur)
 VALUES
 ('Les Misérables', '1862-01-01', 'Hachette', 3, 3, 1, 1),
 ('La Théorie de la Relativité', '1916-11-25', 'Springer',2, 5, 2, 2),
@@ -320,7 +320,7 @@ VALUES
 ('1984', '1949-06-08', 'Secker & Warburg', 5, 3, 4, 5);
 
 
-INSERT INTO Exemplaire (NumeroExemplaire, DateAjout, status, idLivre) VALUES
+INSERT INTO Exemplaire (Numero_Exemplaire, Date_Ajout, status, id_Livre) VALUES
 -- Les Misérables (idLivre = 1)
 (1, '2024-01-10', 'Disponible', 1),
 (2, '2024-02-15', 'Emprunté', 1),
